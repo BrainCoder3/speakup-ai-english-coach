@@ -1,0 +1,24 @@
+/* Listen & repeat card + score ring */
+.drill-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px; color: var(--ink); }
+.drill-card.passed { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-soft); }
+.msg .drill-card { margin-top: 4px; }
+.drill-target { font-size: 26px; font-weight: 800; line-height: 1.45; }
+.drill-target .w { border: 0; background: none; font: inherit; padding: 0 1px; margin-right: .25em; border-radius: 6px; }
+.drill-target .w:hover { background: var(--teal-soft); }
+.drill-target .w.ok { color: var(--green); }
+.drill-target .w.miss { color: var(--red); text-decoration: underline wavy; text-underline-offset: 5px; }
+.drill-target.masked .w { color: transparent; text-shadow: 0 0 12px rgba(29, 42, 42, .5); }
+.drill-fr { color: var(--muted); font-weight: 600; }
+.drill-ctrls { display: flex; gap: 8px; flex-wrap: wrap; }
+.drill-live, .live { min-height: 22px; font-weight: 700; color: var(--teal); }
+.drill-result { display: flex; align-items: center; gap: 16px; }
+.drill-result .msg { font-weight: 800; font-size: 16px; }
+.drill-result .heard { color: var(--muted); font-size: 13px; font-weight: 600; margin-top: 2px; }
+.fdrill .drill-target { font-size: 20px; }
+
+.ring { --p: 0; width: 74px; height: 74px; border-radius: 50%; flex: none; display: grid; place-items: center; background: conic-gradient(var(--c, var(--teal)) calc(var(--p) * 1%), var(--bg) 0); position: relative; }
+.ring::before { content: ""; position: absolute; inset: 7px; border-radius: 50%; background: #fff; }
+.ring b { position: relative; font-family: var(--display); font-weight: 400; font-size: 24px; }
+.ring.good { --c: var(--green); }
+.ring.mid { --c: var(--amber); }
+.ring.low { --c: var(--red); }

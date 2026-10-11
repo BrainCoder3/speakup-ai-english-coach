@@ -1,0 +1,25 @@
+/* Corrections panel and feedback cards */
+.panel { border-left: 1px solid var(--line); padding: 20px 18px; overflow-y: auto; background: var(--paper); max-height: 100vh; position: sticky; top: 0; }
+.panel h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin-bottom: 14px; }
+.empty { color: var(--muted); text-align: center; padding: 30px 12px; font-weight: 600; line-height: 1.5; }
+.empty .icon { margin-bottom: 10px; color: #b7ab93; }
+.fcard { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; margin-bottom: 14px; background: #fff; animation: rise .35s cubic-bezier(.22, 1, .36, 1); }
+.fcard.focus { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.fhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.score { font-family: var(--display); font-weight: 400; font-size: 26px; }
+.score small { font-family: var(--font-body); font-size: 12px; color: var(--muted); font-weight: 800; }
+.label { font-size: 11px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 10px 0 4px; }
+.diff { font-size: 16px; font-weight: 700; line-height: 1.55; }
+.diff del { color: var(--red); background: var(--red-soft); text-decoration: line-through; border-radius: 4px; padding: 0 2px; }
+.diff ins { color: var(--green); background: var(--green-soft); text-decoration: none; border-radius: 4px; padding: 0 2px; }
+.natural { font-size: 16px; font-weight: 700; color: var(--teal); line-height: 1.5; }
+.mist { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.mist li { background: var(--bg); border-radius: 12px; padding: 9px 11px; font-size: 14px; line-height: 1.45; }
+.mist li b { color: var(--red); }
+.mist li b + b { color: var(--green); }
+.tag { display: inline-block; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: #9a6413; background: var(--amber-soft); padding: 1px 7px; border-radius: 6px; margin-left: 6px; }
+.vocab { background: var(--teal-soft); border-radius: 12px; padding: 9px 11px; font-size: 14px; line-height: 1.45; }
+.vocab b { color: var(--teal); }
+.fbtns { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.fbtns .btn { padding: 7px 10px; font-size: 13px; }
+.fdrill { margin-top: 10px; }
