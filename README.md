@@ -147,3 +147,4 @@ L'IA tourne **entièrement en local** (Ollama). La reconnaissance vocale et les 
 ## 📄 Licence
 
 Projet personnel — ajoute une licence (ex. MIT) avant de le rendre public.
+"# speakup-ai-english-coach" 
