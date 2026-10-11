@@ -8,6 +8,7 @@ import { useListening } from "@/lib/speech/useListening";
 import type { Level, SpeakingTopic } from "@/data/types";
 import { Drill } from "@/components/drill/Drill";
 import { Icon, Typing } from "@/components/ui/Icon";
+import { ExpressionList } from "./ExpressionList";
 import { ReviewCard } from "./ReviewCard";
 import { useSpeakTask } from "./useSpeakTask";
 
@@ -29,7 +30,7 @@ export function TopicCard({ level, index, topic }: { level: Level; index: number
         </div>
         <button className="btn" onClick={() => speak(topic.prompt)}><Icon name="play" />Écouter la consigne</button>
       </div>
-      <p className="ideas">Idées : {topic.ideas.map((i) => <span key={i} className="accent">{i}</span>)}</p>
+      {s.phase !== "passed" && <ExpressionList topic={topic} said={`${s.transcript} ${s.live}`} />}
 
       {canTalk && (
         <>
@@ -38,7 +39,7 @@ export function TopicCard({ level, index, topic }: { level: Level; index: number
             <span>{words} / {minWords} mots minimum</span>
           </div>
           {s.round > 1 && <p className="muted">Reparle du même sujet, plus longtemps, <b>sans refaire tes erreurs</b>.</p>}
-          {s.phase === "short" && !recording && <p className="warn">Encore trop court : continue, ce que tu as déjà dit est gardé.</p>}
+          {s.phase === "short" && !recording && <p className="warn">Pas encore assez : continue (ce que tu as déjà dit est gardé) jusqu&apos;à {minWords} mots et {topic.mustUse} expressions.</p>}
           <div className="qctrls">
             <button className={`btn mic-btn big ${recording ? "rec" : ""}`} onClick={talk}>
               <Icon name="mic" />{recording ? `J'écoute… dis « ${STOP_HINT} » pour finir` : s.transcript ? "Continuer à parler" : "Commencer à parler"}
@@ -49,12 +50,14 @@ export function TopicCard({ level, index, topic }: { level: Level; index: number
         </>
       )}
       {s.error && <p className="warn">{s.error}</p>}
-      {s.phase === "reviewing" && <p className="muted"><Typing /> Le prof corrige tout ton discours…</p>}
+      {s.phase === "reviewing" && (
+        <div className="meter"><i style={{ transform: `scaleX(${s.progress[0] / s.progress[1]})` }} /><span><Typing /> Le prof analyse ton discours phrase par phrase… {s.progress[0]}/{s.progress[1]}</span></div>
+      )}
       {s.review && (s.phase === "review" || s.phase === "fix" || s.phase === "passed") && <ReviewCard r={s.review} pass={pass} round={s.round} />}
 
       {s.phase === "review" && (
         <button className="btn primary next" onClick={startFixes}>
-          <Icon name="arrow" />{s.review?.fixes.length ? "Répéter mes phrases corrigées" : "Reparler, encore plus longtemps"}
+          <Icon name="arrow" />{s.passAfterFixes ? "Corriger mes dernières erreurs pour valider" : s.review?.fixes.length ? "Répéter mes phrases corrigées" : "Reparler, encore plus longtemps"}
         </button>
       )}
       {s.phase === "fix" && fix && (

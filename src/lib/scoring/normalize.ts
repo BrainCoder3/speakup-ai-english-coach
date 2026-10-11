@@ -3,7 +3,7 @@ import { PHRASES, canonical } from "./equivalents";
 import { spellDigits } from "./numbers";
 
 const CONTRACTIONS: Record<string, string> = {
-  "i'm": "i am", "you're": "you are", "we're": "we are", "they're": "they are",
+  "i'm": "i am", im: "i am", "you're": "you are", "we're": "we are", "they're": "they are",
   "he's": "he is", "she's": "she is", "it's": "it is", "that's": "that is",
   "what's": "what is", "there's": "there is", "let's": "let us", "who's": "who is",
   "don't": "do not", "doesn't": "does not", "didn't": "did not", "isn't": "is not",

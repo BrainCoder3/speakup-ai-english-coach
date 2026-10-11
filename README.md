@@ -20,7 +20,7 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 | 🎧 **Écoute & répète** | 8 phrases / niveau, **85/100** de prononciation sur **chaque** phrase. Mots ratés en rouge, clic = réécoute lente. |
 | 👂 **Compréhension orale** | 16 textes (monologues, dialogues, messages vocaux, podcasts, débats, journal radio) avec **12 accents** : américain, britannique, australien, indien, irlandais, sud-africain, nigérian, canadien, kényan, néo-zélandais, singapourien, philippin. Texte caché (lisible après 3 écoutes), réponses **à l'oral**. |
 | 🎤 **Réponds à l'oral** | 5 questions / niveau notées par l'IA. **La moindre faute de grammaire = à refaire.** |
-| 🗣️ **Parle longtemps** | Monologue avec un **nombre de mots minimum** (40 → 170 selon le niveau). L'IA corrige **chaque phrase**, tu **répètes les phrases corrigées**, puis tu **reparles du sujet, 25 % plus longtemps**. Validé seulement au 2ᵉ essai. |
+| 🗣️ **Parle longtemps** | Monologue avec un **nombre de mots minimum** (40 → 170 selon le niveau) et **5 expressions imposées** par sujet (au moins 4 à placer, cochées en direct). L'IA découpe ton discours et **vérifie chaque phrase**, tu **répètes les phrases corrigées**, puis tu **reparles du sujet, 25 % plus longtemps**. Validé au 2ᵉ essai avec 75/100 **et seulement quand toutes tes erreurs sont corrigées**. |
 | 🔁 **Mes erreurs** | Chaque phrase fausse est gardée et revient (1, 3, 7, 16, 35 jours) : tu vois ce que tu avais dit et tu dois dire la bonne version **de mémoire**. Au-delà de 10 erreurs en attente, les leçons attendent. |
 | ⏹️ **« I'm done recording »** | Pour les réponses longues, le micro ne coupe pas pendant tes pauses : tu dis *« I'm done recording »* (ou *« I'm done »*, *« end of recording »*) pour terminer. |
 | 🎯 **Mission** | Jeu de rôle (entretien, négociation, débat…) de 5 à 7 échanges, moyenne **75/100** exigée. |
@@ -63,7 +63,7 @@ npm run build && npm start
 | Écoute & répète | Transcription du navigateur alignée mot à mot (LCS) avec la phrase cible ; contractions, nombres, heures (« 1:00 » = « one o'clock »), ordinaux et homophones (to/two/too…) normalisés ; bonus de confiance. | 85 / phrase |
 | Compréhension orale | IA : extrait l'information donnée et l'information attendue, puis les compare (mauvaise information = échec, même en bon anglais). | 70 / question |
 | Réponds à l'oral | IA : grammaire 40 %, pertinence 30 %, phrase complète 30 %. **Si un seul mot doit être corrigé → échec.** < 3 mots ou hors sujet → refusé. | 70 / question |
-| Parle longtemps | IA : grammaire 50 %, vocabulaire 25 %, fluidité 25 % ; −7 points par erreur ; minimum de mots. | 75 au 2ᵉ essai |
+| Parle longtemps | Discours découpé en morceaux (pauses, ponctuation, début de proposition), chacun vérifié par l'IA ; précision 70 % + richesse/fluidité 30 % ; −7 points par erreur ; minimum de mots et d'expressions. | 75 au 2ᵉ essai, 0 erreur restante |
 | Mission | Moyenne des corrections détaillées de chaque échange. | 75 de moyenne |
 | Correction orale | Répéter la phrase corrigée (3 essais). | 80 |
 
@@ -91,12 +91,12 @@ src/
 │   ├── levels/l1.ts … l8.ts     # Un fichier par niveau
 │   ├── levels/index.ts          # LEVELS + STEPS
 │   ├── listening/l1.ts … l8.ts  # Textes d'écoute multi-accents + questions
-│   ├── speaking/index.ts        # Sujets de prise de parole longue
+│   ├── speaking/a.ts, b.ts      # Sujets de parole longue + expressions imposées
 │   └── scenarios.ts             # Conversation libre
 ├── lib/                         # Logique pure (sans React)
 │   ├── config.ts                # ⚙️ Modèle, GPU, seuils
 │   ├── ai/                      # client.ts, prompts/, tasks/, ollama-server.ts
-│   ├── scoring/                 # normalize, numbers, equivalents, pronunciation, diff
+│   ├── scoring/                 # normalize, numbers, equivalents, expressions, sentences, pronunciation, diff
 │   ├── errors/bank.ts           # Banque d'erreurs (répétition espacée)
 │   ├── speech/                  # tts, stt (mode long), stopPhrase, accents, useListening
 │   ├── store/                   # Store persistant + useStore (useSyncExternalStore)

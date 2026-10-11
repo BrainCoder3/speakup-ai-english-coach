@@ -67,6 +67,9 @@ export interface ListeningText {
 export interface SpeakingTopic {
   title: string;
   prompt: string;
-  ideas: string[];
+  /** Expressions to put in the speech ("…" = your own words). */
+  expressions: { en: string; fr: string }[];
+  /** How many of them must be used. */
+  mustUse: number;
   minWords: number;
 }

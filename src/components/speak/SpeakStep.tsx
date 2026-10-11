@@ -34,9 +34,9 @@ export function SpeakStep({ level }: { level: Level }) {
         <div>
           <h2>🗣️ Parle longtemps</h2>
           <p>
-            Parle sans t&apos;arrêter (un nombre de mots minimum est exigé), puis dis <b>« {STOP_HINT} »</b>. Le prof corrige
-            chaque phrase, tu répètes les bonnes versions, puis <b>tu reparles du sujet, plus longtemps</b>. Validation à
-            partir du 2ᵉ essai avec <b>{PASS}/100</b>.
+            Parle longtemps en plaçant les <b>expressions imposées</b>, puis dis <b>« {STOP_HINT} »</b>. Le prof analyse tout
+            ton discours et corrige chaque phrase ; tu répètes les bonnes versions, puis <b>tu reparles du sujet, plus
+            longtemps</b>. Validation à partir du 2ᵉ essai avec <b>{PASS}/100</b>, et seulement quand toutes tes erreurs sont corrigées.
           </p>
         </div>
       </div>

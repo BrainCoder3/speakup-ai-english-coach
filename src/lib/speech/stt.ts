@@ -51,7 +51,7 @@ export function listen(onInterim?: (text: string) => void, opts: { long?: boolea
         for (let i = e.resultIndex; i < e.results.length; i++) {
           const r = e.results[i];
           if (r.isFinal) {
-            finalText += r[0].transcript + " ";
+            finalText += r[0].transcript + "\n"; // one line per pause: natural sentence boundaries
             if (r[0].confidence > 0) confs.push(r[0].confidence);
           } else interim += r[0].transcript;
         }
