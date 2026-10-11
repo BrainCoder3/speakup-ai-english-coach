@@ -13,7 +13,9 @@ export const LEVELS: Level[] = [l1, l2, l3, l4, l5, l6, l7, l8];
 
 export const STEPS: { id: StepId; label: string; icon: string }[] = [
   { id: "repeat", label: "Écoute & répète", icon: "🎧" },
+  { id: "listen", label: "Compréhension orale", icon: "👂" },
   { id: "answer", label: "Réponds à l'oral", icon: "🎤" },
+  { id: "speak", label: "Parle longtemps", icon: "🗣️" },
   { id: "mission", label: "Mission", icon: "🎯" },
 ];
 

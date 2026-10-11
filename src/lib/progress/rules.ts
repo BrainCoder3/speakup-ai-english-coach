@@ -3,36 +3,36 @@
  * and nothing is passed until its score reaches CONFIG.pass.
  */
 import { store } from "@/lib/store/store";
-import type { LevelProgress } from "@/lib/store/types";
+import type { LevelProgress, StepProgress } from "@/lib/store/types";
 import { starsFor } from "@/lib/scoring/pronunciation";
 import { LEVELS, STEPS, levelIndex } from "@/data/levels";
 import type { StepId } from "@/data/types";
 
-const empty = (): LevelProgress => ({
-  repeat: { scores: {}, passed: false, stars: 0 },
-  answer: { scores: {}, passed: false, stars: 0 },
-  mission: { scores: {}, passed: false, stars: 0, best: 0, attempts: 0 },
-});
+const emptyStep = (): StepProgress => ({ scores: {}, passed: false, stars: 0 });
 
 /** Progress of a level (created on demand, without notifying listeners). */
 export function levelProgress(id: string): LevelProgress {
-  const d = store.get();
-  return (d.levels[id] ??= empty());
+  const p = (store.get().levels[id] ??= {} as LevelProgress);
+  for (const s of STEPS) p[s.id] ??= emptyStep(); // older saves had fewer steps
+  return p;
 }
 
-export const isLevelPassed = (id: string) => STEPS.every((s) => levelProgress(id)[s.id].passed);
+/** The mission is the final exam: passing it (after every other step) validates the level. */
+export const isLevelPassed = (id: string) => levelProgress(id).mission.passed;
 export const isLevelUnlocked = (index: number) => index === 0 || (index > 0 && isLevelPassed(LEVELS[index - 1].id));
 
 export function isStepUnlocked(levelId: string, step: StepId): boolean {
   if (!isLevelUnlocked(levelIndex(levelId))) return false;
+  const p = levelProgress(levelId);
+  if (p[step].passed) return true;
   const order = STEPS.map((s) => s.id);
-  return order.slice(0, order.indexOf(step)).every((s) => levelProgress(levelId)[s].passed);
+  return order.slice(0, order.indexOf(step)).every((s) => p[s].passed);
 }
 
 /** First step of the level that is not passed yet. */
 export function nextStep(levelId: string): StepId {
   const p = levelProgress(levelId);
-  return (STEPS.find((s) => !p[s.id].passed) ?? STEPS[STEPS.length - 1]).id;
+  return (STEPS.find((s) => !p[s.id].passed && isStepUnlocked(levelId, s.id)) ?? STEPS[STEPS.length - 1]).id;
 }
 
 /** Index of the level to work on now. */

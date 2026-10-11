@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
+import { STOP_HINT } from "@/lib/speech/stopPhrase";
 import type { Level, Question } from "@/data/types";
 import { Drill } from "@/components/drill/Drill";
 import { DiffText } from "@/components/ui/DiffText";
@@ -43,7 +44,7 @@ export function QuestionCard({ level, index, item, onPassed }: Props) {
         <button className="btn" onClick={() => setHint(true)}><Icon name="bulb" />Indice</button>
         <button className="btn" onClick={() => { setExample(true); speak(item.example); }}><Icon name="help" />Exemple de réponse</button>
         <button className={`btn mic-btn big ${recording ? "rec" : ""}`} disabled={s.grading} onClick={answer}>
-          <Icon name="mic" />{recording ? "J'écoute…" : "Répondre"}
+          <Icon name="mic" />{recording ? `J'écoute… dis « ${STOP_HINT} »` : "Répondre"}
         </button>
       </div>
       {hint && <div className="qhint">{item.hint}</div>}

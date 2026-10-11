@@ -40,12 +40,22 @@ export interface VocabWord {
   due: string;
 }
 
+/** A sentence the learner got wrong, to say correctly again later (spaced repetition). */
+export interface ErrorItem {
+  said: string;
+  corrected: string;
+  explication: string;
+  box: number;
+  due: string;
+}
+
 export interface AppData {
   version: 2;
   settings: Settings;
   levels: Record<string, LevelProgress>;
   stats: Stats;
   vocab: VocabWord[];
+  errors: ErrorItem[];
 }
 
 export const defaults = (): AppData => ({
@@ -54,4 +64,5 @@ export const defaults = (): AppData => ({
   levels: {},
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],
+  errors: [],
 });

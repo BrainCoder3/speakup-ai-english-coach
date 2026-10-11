@@ -1,5 +1,11 @@
-/** Speech-to-text: listen() resolves with what was said once the learner pauses. */
+/**
+ * Speech-to-text.
+ * - short mode: listen() resolves when the learner pauses (repeat drills);
+ * - long mode: it keeps recording through pauses until the learner says
+ *   "I'm done recording" (or clicks the mic again).
+ */
 import { CONFIG } from "@/lib/config";
+import { endsWithStop, withoutStop } from "./stopPhrase";
 import { stopSpeaking } from "./tts";
 
 export interface Heard {
@@ -7,7 +13,7 @@ export interface Heard {
   confidence: number;
 }
 
-let current: SpeechRecognitionLike | null = null;
+let current: { stop: () => void } | null = null;
 const listeners = new Set<(on: boolean) => void>();
 const emit = (on: boolean) => listeners.forEach((f) => f(on));
 
@@ -19,62 +25,75 @@ export function onListeningChange(fn: (on: boolean) => void) {
   return () => void listeners.delete(fn);
 }
 
-/** Starts listening; onInterim receives the live transcript. */
-export function listen(onInterim?: (text: string) => void): Promise<Heard> {
+/** Starts listening; onInterim receives the live transcript (stop phrase removed). */
+export function listen(onInterim?: (text: string) => void, opts: { long?: boolean } = {}): Promise<Heard> {
   const SR = Ctor();
   if (!SR) return Promise.reject(new Error("unsupported"));
   stop();
   stopSpeaking();
+  const long = !!opts.long;
+  const { silenceMs, longSilenceMs, maxMs, longMaxMs } = CONFIG.speech;
   return new Promise((resolve, reject) => {
-    const rec = new SR();
-    rec.lang = CONFIG.speech.lang;
-    rec.interimResults = true;
-    rec.continuous = true;
-    rec.maxAlternatives = 1;
-    let finalText = "";
+    let finalText = "", ended = false, rec = new SR();
     const confs: number[] = [];
     let silence: ReturnType<typeof setTimeout> | undefined;
-    const hard = setTimeout(() => rec.stop(), CONFIG.speech.maxMs);
+    const hard = setTimeout(() => finish(), long ? longMaxMs : maxMs);
+    const handle = { stop: () => finish() };
 
-    rec.onresult = (e) => {
-      let interim = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const r = e.results[i];
-        if (r.isFinal) {
-          finalText += r[0].transcript + " ";
-          if (r[0].confidence > 0) confs.push(r[0].confidence);
-        } else interim += r[0].transcript;
-      }
-      onInterim?.((finalText + interim).trim());
-      clearTimeout(silence);
-      silence = setTimeout(() => rec.stop(), CONFIG.speech.silenceMs);
-    };
-    rec.onerror = (e) => {
-      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
-        cleanup();
-        reject(new Error("mic-denied"));
-      }
-    };
-    rec.onend = () => {
-      cleanup();
-      const confidence = confs.length ? confs.reduce((a, b) => a + b, 0) / confs.length : 0;
-      resolve({ text: finalText.trim(), confidence });
-    };
+    function start() {
+      rec = new SR!();
+      rec.lang = CONFIG.speech.lang;
+      rec.interimResults = true;
+      rec.continuous = true;
+      rec.maxAlternatives = 1;
+      rec.onresult = (e) => {
+        let interim = "";
+        for (let i = e.resultIndex; i < e.results.length; i++) {
+          const r = e.results[i];
+          if (r.isFinal) {
+            finalText += r[0].transcript + " ";
+            if (r[0].confidence > 0) confs.push(r[0].confidence);
+          } else interim += r[0].transcript;
+        }
+        const all = (finalText + interim).trim();
+        onInterim?.(withoutStop(all));
+        if (endsWithStop(finalText) || endsWithStop(all, true)) {
+          if (!endsWithStop(finalText)) finalText = all;
+          return finish();
+        }
+        clearTimeout(silence);
+        silence = setTimeout(finish, long ? longSilenceMs : silenceMs);
+      };
+      rec.onerror = (e) => void (/not-allowed/.test(e.error) && fail(new Error("mic-denied")));
+      // Browsers end recognition on their own after a while: in long mode we restart.
+      rec.onend = () => (long && !ended ? start() : finish());
+      rec.start();
+    }
+
     function cleanup() {
+      ended = true;
       clearTimeout(silence);
       clearTimeout(hard);
-      if (current === rec) {
-        current = null;
-        emit(false);
-      }
+      if (current === handle) (current = null), emit(false);
     }
-    current = rec;
+    function finish() {
+      if (ended) return;
+      cleanup();
+      try { rec.stop(); } catch { /* already stopped */ }
+      const confidence = confs.length ? confs.reduce((a, b) => a + b, 0) / confs.length : 0;
+      resolve({ text: withoutStop(finalText), confidence });
+    }
+    function fail(err: Error) {
+      if (!ended) cleanup(), reject(err);
+    }
+
+    current = handle;
     emit(true);
-    rec.start();
+    start();
   });
 }
 
-/** Ends the current utterance early (it is still returned). */
+/** Ends the current recording early (what was said is still returned). */
 export function stop() {
   current?.stop();
 }

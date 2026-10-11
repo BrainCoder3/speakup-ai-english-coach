@@ -16,9 +16,13 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 | | |
 |---|---|
 | 🗺️ **8 niveaux (A1 → C1)** | Se présenter, routine, passé, futur, travail, opinions, business, expressions natives. |
-| 🔒 **Progression verrouillée** | 3 épreuves par niveau, dans l'ordre. Le niveau suivant ne s'ouvre que si tout est validé (même en tapant l'URL). |
+| 🔒 **Progression verrouillée** | 5 épreuves par niveau, dans l'ordre. Le niveau suivant ne s'ouvre que si tout est validé (même en tapant l'URL). |
 | 🎧 **Écoute & répète** | 8 phrases / niveau, **85/100** de prononciation sur **chaque** phrase. Mots ratés en rouge, clic = réécoute lente. |
+| 👂 **Compréhension orale** | 16 textes (monologues, dialogues, messages vocaux, podcasts, débats, journal radio) avec **12 accents** : américain, britannique, australien, indien, irlandais, sud-africain, nigérian, canadien, kényan, néo-zélandais, singapourien, philippin. Texte caché (lisible après 3 écoutes), réponses **à l'oral**. |
 | 🎤 **Réponds à l'oral** | 5 questions / niveau notées par l'IA. **La moindre faute de grammaire = à refaire.** |
+| 🗣️ **Parle longtemps** | Monologue avec un **nombre de mots minimum** (40 → 170 selon le niveau). L'IA corrige **chaque phrase**, tu **répètes les phrases corrigées**, puis tu **reparles du sujet, 25 % plus longtemps**. Validé seulement au 2ᵉ essai. |
+| 🔁 **Mes erreurs** | Chaque phrase fausse est gardée et revient (1, 3, 7, 16, 35 jours) : tu vois ce que tu avais dit et tu dois dire la bonne version **de mémoire**. Au-delà de 10 erreurs en attente, les leçons attendent. |
+| ⏹️ **« I'm done recording »** | Pour les réponses longues, le micro ne coupe pas pendant tes pauses : tu dis *« I'm done recording »* (ou *« I'm done »*, *« end of recording »*) pour terminer. |
 | 🎯 **Mission** | Jeu de rôle (entretien, négociation, débat…) de 5 à 7 échanges, moyenne **75/100** exigée. |
 | 🗣️ **Correction orale** | Faute en conversation → *« Almost! … Repeat after me: … »* → tu dois répéter avant de continuer. |
 | 📝 **Corrections détaillées** | Diff (barré / ajouté), version native, explications **en français**, astuce, nouveau mot. |
@@ -56,8 +60,10 @@ npm run build && npm start
 
 | Épreuve | Mesure | Seuil |
 |---|---|---|
-| Écoute & répète | Transcription du navigateur alignée mot à mot (LCS) avec la phrase cible ; contractions et nombres normalisés ; bonus de confiance. | 85 / phrase |
+| Écoute & répète | Transcription du navigateur alignée mot à mot (LCS) avec la phrase cible ; contractions, nombres, heures (« 1:00 » = « one o'clock »), ordinaux et homophones (to/two/too…) normalisés ; bonus de confiance. | 85 / phrase |
+| Compréhension orale | IA : extrait l'information donnée et l'information attendue, puis les compare (mauvaise information = échec, même en bon anglais). | 70 / question |
 | Réponds à l'oral | IA : grammaire 40 %, pertinence 30 %, phrase complète 30 %. **Si un seul mot doit être corrigé → échec.** < 3 mots ou hors sujet → refusé. | 70 / question |
+| Parle longtemps | IA : grammaire 50 %, vocabulaire 25 %, fluidité 25 % ; −7 points par erreur ; minimum de mots. | 75 au 2ᵉ essai |
 | Mission | Moyenne des corrections détaillées de chaque échange. | 75 de moyenne |
 | Correction orale | Répéter la phrase corrigée (3 essais). | 80 |
 
@@ -76,20 +82,23 @@ src/
 ├── app/                         # Routes (Server Components fins)
 │   ├── layout.tsx               # Polices + barre latérale
 │   ├── page.tsx                 # Parcours
-│   ├── lesson/[level]/[step]/   # 24 pages statiques (generateStaticParams)
-│   ├── free/ notebook/ settings/
+│   ├── lesson/[level]/[step]/   # 40 pages statiques (generateStaticParams)
+│   ├── free/ notebook/ errors/ settings/
 │   └── api/
 │       ├── chat/route.ts        # Proxy streaming → Ollama (GPU)
 │       └── models/route.ts      # Détection du modèle + préchargement GPU
 ├── data/                        # 📚 Contenu
 │   ├── levels/l1.ts … l8.ts     # Un fichier par niveau
 │   ├── levels/index.ts          # LEVELS + STEPS
+│   ├── listening/l1.ts … l8.ts  # Textes d'écoute multi-accents + questions
+│   ├── speaking/index.ts        # Sujets de prise de parole longue
 │   └── scenarios.ts             # Conversation libre
 ├── lib/                         # Logique pure (sans React)
 │   ├── config.ts                # ⚙️ Modèle, GPU, seuils
 │   ├── ai/                      # client.ts, prompts/, tasks/, ollama-server.ts
-│   ├── scoring/                 # normalize, pronunciation, diff
-│   ├── speech/                  # tts.ts, stt.ts, useListening.ts
+│   ├── scoring/                 # normalize, numbers, equivalents, pronunciation, diff
+│   ├── errors/bank.ts           # Banque d'erreurs (répétition espacée)
+│   ├── speech/                  # tts, stt (mode long), stopPhrase, accents, useListening
 │   ├── store/                   # Store persistant + useStore (useSyncExternalStore)
 │   ├── progress/                # rules.ts (verrous, étoiles, XP), stats.ts
 │   └── vocab.ts                 # Répétition espacée
@@ -99,6 +108,9 @@ src/
 │   ├── lesson/                  # LessonView, StepTabs, Repeat/Answer/MissionStep…
 │   ├── conversation/            # useConversation, turn, coachReply, Composer…
 │   ├── drill/                   # Drill + useDrill (écoute & répète)
+│   ├── listen/                  # Compréhension orale (lecteur multi-voix, questions)
+│   ├── speak/                   # Parle longtemps (tours, corrections, répétitions)
+│   ├── errors/                  # Mes erreurs + ReviewGate
 │   ├── feedback/                # PanelContext, CorrectionsPanel, FeedbackCard
 │   ├── free/ notebook/ settings/
 │   └── ui/                      # Icon, ScoreRing, DiffText

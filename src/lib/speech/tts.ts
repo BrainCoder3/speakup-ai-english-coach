@@ -36,12 +36,12 @@ function release() {
 }
 
 /** Queues a sentence; resolves when it has been spoken. */
-export function speak(text: string, opts: { rate?: number } = {}): Promise<void> {
+export function speak(text: string, opts: { rate?: number; voice?: SpeechSynthesisVoice | null } = {}): Promise<void> {
   return new Promise((resolve) => {
     const s = synth();
     if (!s || !text.trim()) return resolve();
     const u = new SpeechSynthesisUtterance(text);
-    const v = bestVoice();
+    const v = opts.voice ?? bestVoice();
     if (v) u.voice = v;
     u.lang = v?.lang ?? "en-US";
     u.rate = opts.rate ?? store.settings().rate;

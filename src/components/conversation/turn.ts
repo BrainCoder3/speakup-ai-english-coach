@@ -7,6 +7,7 @@
 import { quickCheck, analyse } from "@/lib/ai/tasks/correction";
 import { speak } from "@/lib/speech/tts";
 import { trackMistakes, trackScore, trackSpeech } from "@/lib/progress/stats";
+import { saveErrors } from "@/lib/errors/bank";
 import { coachReply } from "./coachReply";
 import type { TurnApi } from "./types";
 
@@ -16,6 +17,7 @@ async function spokenCorrection(api: TurnApi, text: string, context: string) {
   try {
     const q = await quickCheck(text, context);
     if (!api.alive() || !q.hasError) return;
+    saveErrors([{ said: text, corrected: q.corrected, explication: q.fix }]);
     const id = api.add({ role: "coach", kind: "fix", text: q.fix, corrected: q.corrected });
     await speak(`Almost! ${q.fix} Repeat after me: ${q.corrected}`);
     if (!api.alive()) return;

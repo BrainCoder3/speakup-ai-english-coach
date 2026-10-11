@@ -1,0 +1,55 @@
+"use client";
+/** Records a spoken answer to a comprehension question and grades it. */
+import { useCallback, useState } from "react";
+import { CONFIG } from "@/lib/config";
+import { gradeListening, type ListenGrade } from "@/lib/ai/tasks/listening";
+import { recordItem } from "@/lib/progress/rules";
+import { trackScore, trackSpeech } from "@/lib/progress/stats";
+import { isListening, listen, stop, sttSupported } from "@/lib/speech/stt";
+import { speak } from "@/lib/speech/tts";
+
+export interface ListenAnswerState {
+  live: string;
+  said: string;
+  grading: boolean;
+  grade: ListenGrade | null;
+  tries: number;
+  error: string;
+}
+
+interface Args {
+  levelId: string;
+  index: number;
+  passage: string;
+  question: string;
+  expected: string;
+}
+
+export function useListenAnswer(a: Args) {
+  const [s, setS] = useState<ListenAnswerState>({ live: "", said: "", grading: false, grade: null, tries: 0, error: "" });
+
+  const answer = useCallback(async () => {
+    if (isListening()) return stop();
+    if (!sttSupported()) return setS((x) => ({ ...x, error: "Utilise Edge ou Chrome pour la reconnaissance vocale." }));
+    let text = "";
+    try {
+      text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
+    } catch (e) {
+      return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
+    }
+    if (!text) return setS((x) => ({ ...x, live: "" }));
+    trackSpeech(text);
+    setS((x) => ({ ...x, live: "", said: text, grading: true, grade: null, error: "" }));
+    try {
+      const g = await gradeListening({ passage: a.passage, question: a.question, expected: a.expected, said: text, passMark: CONFIG.pass.listen });
+      trackScore("grammar", g.score);
+      recordItem(a.levelId, "listen", a.index, g.score);
+      setS((x) => ({ ...x, grading: false, grade: g, tries: x.tries + 1 }));
+      speak(g.understood ? "Correct! " + g.corrected : "Not quite. Listen again.");
+    } catch {
+      setS((x) => ({ ...x, grading: false, error: "L'IA ne répond pas. Vérifie Ollama." }));
+    }
+  }, [a.levelId, a.index, a.passage, a.question, a.expected]);
+
+  return { state: s, answer };
+}

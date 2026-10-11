@@ -1,5 +1,7 @@
 /** Shapes of the course content. */
-export type StepId = "repeat" | "answer" | "mission";
+import type { Accent } from "@/lib/speech/accents";
+
+export type StepId = "repeat" | "listen" | "answer" | "speak" | "mission";
 
 export interface RepeatItem {
   en: string;
@@ -41,4 +43,30 @@ export interface Scenario {
   name: string;
   situation: string;
   opener: string;
+}
+
+/** One speaker's line in a listening text. */
+export interface ListeningPart {
+  speaker: string;
+  accent: Accent;
+  /** Picks another voice of the same accent (two different people). */
+  voice?: number;
+  text: string;
+}
+
+/** A listening-comprehension text (monologue, dialogue, voicemail, news…). */
+export interface ListeningText {
+  title: string;
+  kind: string;
+  rate?: number;
+  parts: ListeningPart[];
+  questions: { q: string; answer: string }[];
+}
+
+/** A long speaking task: talk about it, get corrected, then talk again. */
+export interface SpeakingTopic {
+  title: string;
+  prompt: string;
+  ideas: string[];
+  minWords: number;
 }

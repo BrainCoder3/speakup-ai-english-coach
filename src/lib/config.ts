@@ -10,13 +10,16 @@ export const CONFIG = {
   /** Passing scores (0-100): you cannot move on until you reach them. */
   pass: {
     repeat: 85, // each "listen & repeat" sentence
+    listen: 70, // each listening-comprehension question
     answer: 70, // each spoken answer (any grammar fix = fail)
+    speak: 75, // long speaking task, after correcting your mistakes
     mission: 75, // average over the role-play mission
     drill: 80, // repeating a corrected sentence in a conversation
   },
   drillMaxTries: 3,
   answerFallbackAfter: 2,
 
-  speech: { lang: "en-US", silenceMs: 1800, maxMs: 25000 },
+  /** Short answers end on a pause; long ones end when you say "I'm done recording". */
+  speech: { lang: "en-US", silenceMs: 1800, maxMs: 25000, longSilenceMs: 20000, longMaxMs: 240000 },
   storageKey: "speakup:v2",
 } as const;

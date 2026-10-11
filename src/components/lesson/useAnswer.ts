@@ -7,6 +7,7 @@ import { listen, isListening, stop, sttSupported } from "@/lib/speech/stt";
 import { speak } from "@/lib/speech/tts";
 import { recordItem } from "@/lib/progress/rules";
 import { trackScore, trackSpeech } from "@/lib/progress/stats";
+import { saveErrors } from "@/lib/errors/bank";
 import type { Level, Question } from "@/data/types";
 
 export interface AnswerState {
@@ -28,7 +29,7 @@ export function useAnswer(level: Level, index: number, item: Question) {
     if (!sttSupported()) return setS((x) => ({ ...x, error: "Utilise Edge ou Chrome pour la reconnaissance vocale." }));
     let text = "";
     try {
-      text = (await listen((live) => setS((x) => ({ ...x, live })))).text;
+      text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
     } catch (e) {
       return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
     }
@@ -40,6 +41,7 @@ export function useAnswer(level: Level, index: number, item: Question) {
       trackScore("grammar", g.score);
       recordItem(level.id, "answer", index, g.score);
       const failed = g.score < CONFIG.pass.answer;
+      if (failed && g.relevant && g.changes > 0) saveErrors([{ said: text, corrected: g.corrected, explication: g.feedback_fr }]);
       setS((x) => ({ ...x, grading: false, grade: g, fails: x.fails + (failed ? 1 : 0) }));
       speak(g.fix_en);
     } catch {

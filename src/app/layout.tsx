@@ -8,6 +8,7 @@ import "@/styles/lesson.css";
 import "@/styles/drill.css";
 import "@/styles/conversation.css";
 import "@/styles/panel.css";
+import "@/styles/practice.css";
 import "@/styles/misc.css";
 
 const body = Nunito({ variable: "--font-body", subsets: ["latin"], weight: ["500", "600", "700", "800", "900"] });

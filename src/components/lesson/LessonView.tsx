@@ -14,6 +14,9 @@ import { AnswerStep } from "./AnswerStep";
 import { MissionStep } from "./MissionStep";
 import { RepeatStep } from "./RepeatStep";
 import { StepTabs } from "./StepTabs";
+import { ListenStep } from "@/components/listen/ListenStep";
+import { SpeakStep } from "@/components/speak/SpeakStep";
+import { ReviewGate } from "@/components/errors/ReviewGate";
 
 export function LessonView({ levelId, step }: { levelId: string; step: StepId }) {
   const ready = useStore();
@@ -42,11 +45,15 @@ export function LessonView({ levelId, step }: { levelId: string; step: StepId })
             </div>
           </header>
           <StepTabs levelId={levelId} active={step} />
-          <div className="stage" key={step}>
-            {step === "repeat" && <RepeatStep level={level} />}
-            {step === "answer" && <AnswerStep level={level} />}
-            {step === "mission" && <MissionStep level={level} />}
-          </div>
+          <ReviewGate>
+            <div className="stage" key={step}>
+              {step === "repeat" && <RepeatStep level={level} />}
+              {step === "listen" && <ListenStep level={level} />}
+              {step === "answer" && <AnswerStep level={level} />}
+              {step === "speak" && <SpeakStep level={level} />}
+              {step === "mission" && <MissionStep level={level} />}
+            </div>
+          </ReviewGate>
         </div>
         <CorrectionsPanel empty="Les corrections détaillées de la mission apparaîtront ici, avec les explications en français." />
       </div>
