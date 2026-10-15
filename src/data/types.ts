@@ -1,7 +1,7 @@
 /** Shapes of the course content. */
 import type { Accent } from "@/lib/speech/accents";
 
-export type StepId = "learn" | "repeat" | "listen" | "answer" | "speak" | "mission";
+export type StepId = "learn" | "vocab" | "drill" | "translate" | "write" | "repeat" | "listen" | "answer" | "speak" | "mission";
 
 export interface RepeatItem {
   en: string;

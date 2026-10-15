@@ -49,7 +49,19 @@ Le cours d'espagnol suit **unité par unité** le programme du manuel *Aula Inte
 | 8 · El barrio ideal | Quartier, itinéraire | quantificateurs (ningún, algún…), localisation, lo que más me gusta |
 | 9 · ¿Sabes conducir? | Expériences, compétences | pretérito perfecto, participes, saber / poder |
 
-Chaque unité a **6 épreuves** : 📖 **Comprendre la leçon** (toute la théorie expliquée en français + vocabulaire + phonétique + culture, puis un **quiz de 11 à 14 questions** à réussir à 80 %), puis les mêmes épreuves orales que l'anglais. L'écoute utilise **10 accents** : Espagne, Mexique, Argentine, Colombie, Chili, Pérou, Cuba, Venezuela, Uruguay, Guinée équatoriale. Pour finir un enregistrement long, dis « **He terminado** ».
+Le cours d'espagnol est centré sur **la compréhension des règles et l'écrit sans faute**. Chaque unité a **5 épreuves obligatoires** :
+
+| Épreuve | Contenu | Validation |
+|---|---|---|
+| 📖 Comprendre la leçon | Toute la grammaire expliquée en français (tableaux de conjugaison), fiches **« Quand utiliser quoi ? »** (ser / estar / hay, por / para, muy / mucho, qué / cuál, gusta / gustan, saber / poder…) avec les pièges classiques, vocabulaire, phonétique, culture, puis un quiz (129 questions au total) | 80 % au quiz |
+| 🔤 Vocabulaire | Le mot est donné en français, tu l'écris en espagnol **avec l'article et les accents** (240 mots) | 80 % du premier coup |
+| ✍️ Exercices | Phrases à trous : conjugaisons, articles, prépositions… avec la règle à chaque réponse (154 exercices) | 80 % du premier coup |
+| 🔁 Traduction | Phrases françaises à écrire en espagnol ; une autre formulation correcte est acceptée (vérifiée par l'IA) | 75 % du premier coup |
+| 📝 Rédaction | Petit texte avec expressions imposées, corrigé phrase par phrase ; tu recopies les corrections puis tu réécris le texte | 75/100 au 2ᵉ brouillon, 0 erreur restante |
+
+Règles d'écriture : majuscules et ponctuation ne comptent pas, mais **chaque lettre et chaque accent compte** (un message précise quand seul l'accent manque). Après une erreur, il faut **recopier la bonne réponse** pour continuer, et la question revient en fin de série. Des boutons **á é í ó ú ü ñ ¿ ¡** sont sous chaque zone de saisie. Les erreurs de traduction et de rédaction vont dans « Mes erreurs », révisées **à l'écrit**.
+
+Les épreuves orales (écoute & répète, compréhension orale avec 10 accents, réponses orales, parole longue, mission) restent disponibles en **facultatif**.
 
 ---
 

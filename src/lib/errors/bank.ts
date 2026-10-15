@@ -5,6 +5,7 @@
 import { store } from "@/lib/store/store";
 import type { ErrorItem } from "@/lib/store/types";
 import { today } from "@/lib/progress/stats";
+import { activeCourse } from "@/lib/course/lang";
 
 const INTERVALS = [0, 1, 3, 7, 16, 35]; // days before the next review, per box
 export const MASTERED_BOX = INTERVALS.length - 1;
@@ -20,7 +21,7 @@ export function saveErrors(list: { said: string; corrected: string; explication:
   const fresh = list.filter((e) => e.corrected.trim() && !allErrors().some((x) => key(x.corrected) === key(e.corrected)));
   if (!fresh.length) return;
   store.update((d) => {
-    d.errors = [...fresh.map((e) => ({ ...e, box: 0, due: today() })), ...(d.errors ?? [])].slice(0, 300);
+    d.errors = [...fresh.map((e) => ({ ...e, box: 0, due: today(), lang: activeCourse() })), ...(d.errors ?? [])].slice(0, 300);
   });
 }
 

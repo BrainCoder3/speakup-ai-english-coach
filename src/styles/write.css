@@ -1,0 +1,23 @@
+/* Written practice: typing box, accent keys, answer cards, "quand utiliser quoi" */
+.typebox { display: flex; flex-direction: column; gap: 6px; }
+.typebox input, .typebox textarea { width: 100%; padding: 13px 14px; border-radius: 14px; border: 2px solid var(--line); background: #fff; font: inherit; font-size: 18px; font-weight: 700; color: var(--ink); }
+.typebox textarea { font-size: 16px; font-weight: 600; line-height: 1.6; resize: vertical; }
+.typebox input:focus, .typebox textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.accent-keys { display: flex; gap: 4px; flex-wrap: wrap; }
+.accent-keys button { min-width: 36px; height: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--paper); font-weight: 800; font-size: 16px; }
+.accent-keys button:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-soft); }
+.answer.good { border-color: var(--green); }
+.answer.bad { border-color: var(--red); }
+.aprompt { display: flex; flex-direction: column; gap: 4px; }
+.afr { font-family: var(--display); font-size: 26px; line-height: 1.3; }
+.drill-sentence { font-size: 22px; font-weight: 800; line-height: 1.5; }
+.blank { display: inline-block; min-width: 70px; border-bottom: 3px solid var(--teal); color: transparent; margin: 0 4px; }
+.afeedback { display: flex; flex-direction: column; gap: 8px; }
+.adiff { font-size: 17px; }
+.aexpected { display: flex; align-items: center; gap: 6px; font-size: 20px; color: var(--green); }
+.when { display: flex; flex-direction: column; gap: 14px; }
+.wcard h4 { font-size: 16px; font-weight: 900; margin-bottom: 6px; }
+.wcard td i { font-weight: 600; }
+.wcard td .btn.ghost { padding: 2px; vertical-align: middle; }
+.trap { margin-top: 6px; background: var(--red-soft); color: #8d2f25; border-radius: 10px; padding: 7px 10px; font-weight: 800; font-size: 14px; }
+.workspace.solo { grid-template-columns: 1fr; }

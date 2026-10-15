@@ -5,6 +5,7 @@ import { CONFIG } from "@/lib/config";
 import { gradeError } from "@/lib/errors/bank";
 import type { ErrorItem } from "@/lib/store/types";
 import { Drill } from "@/components/drill/Drill";
+import { AnswerCard, spellingCheck } from "@/components/write/AnswerCard";
 import { Icon } from "@/components/ui/Icon";
 
 export function ErrorReview({ items, onExit }: { items: ErrorItem[]; onExit: () => void }) {
@@ -44,6 +45,18 @@ export function ErrorReview({ items, onExit }: { items: ErrorItem[]; onExit: () 
         <p className="counter">Tu avais dit :</p>
         <p className="wrong">« {e.said} »</p>
         <p className="expl">💡 {e.explication}</p>
+        {e.lang === "es" ? (
+          <AnswerCard
+            key={round}
+            prompt={<span className="counter">Écris la phrase correcte, de mémoire :</span>}
+            placeholder="La phrase correcte en espagnol…"
+            check={(t) => spellingCheck(t, [e.corrected], "")}
+            onNext={(right) => {
+              gradeError(e, right);
+              setResult(right);
+            }}
+          />
+        ) : (
         <Drill
           key={round}
           target={e.corrected}
@@ -56,6 +69,7 @@ export function ErrorReview({ items, onExit }: { items: ErrorItem[]; onExit: () 
             setResult(r.passed);
           }}
         />
+        )}
         {result !== null && (
           <button className="btn primary next" onClick={next}>
             <Icon name="arrow" />{result ? "Suivante" : "Je la retenterai à la fin"}

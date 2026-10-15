@@ -16,6 +16,10 @@ export interface StepDef {
 
 const STEP: Record<StepId, StepDef> = {
   learn: { id: "learn", label: "Comprendre la leçon", icon: "📖" },
+  vocab: { id: "vocab", label: "Vocabulaire", icon: "🔤" },
+  drill: { id: "drill", label: "Exercices", icon: "✍️" },
+  translate: { id: "translate", label: "Traduction", icon: "🔁" },
+  write: { id: "write", label: "Rédaction", icon: "📝" },
   repeat: { id: "repeat", label: "Écoute & répète", icon: "🎧" },
   listen: { id: "listen", label: "Compréhension orale", icon: "👂" },
   answer: { id: "answer", label: "Réponds à l'oral", icon: "🎤" },
@@ -30,17 +34,23 @@ export interface Course {
   /** "Niveau" or "Unidad". */
   unit: string;
   levels: Level[];
+  /** Required steps, in order: the last one validates the level. */
   steps: StepDef[];
+  /** Optional steps, open as soon as the level is (not needed to pass). */
+  extra: StepDef[];
 }
 
 export const COURSES: Record<CourseId, Course> = {
   en: {
     id: "en", title: "Anglais", subtitle: "8 niveaux, de A1 à C1", unit: "Niveau", levels: LEVELS,
     steps: [STEP.repeat, STEP.listen, STEP.answer, STEP.speak, STEP.mission],
+    extra: [],
   },
   es: {
     id: "es", title: "Espagnol", subtitle: "Aula Internacional Plus 1 · A1 · 10 unités", unit: "Unidad", levels: ES_LEVELS,
-    steps: [STEP.learn, STEP.repeat, STEP.listen, STEP.answer, STEP.speak, STEP.mission],
+    // Written Spanish first: understand, spell, apply the rules, translate, write. Speaking is optional.
+    steps: [STEP.learn, STEP.vocab, STEP.drill, STEP.translate, STEP.write],
+    extra: [STEP.repeat, STEP.listen, STEP.answer, STEP.speak, STEP.mission],
   },
 };
 
@@ -51,3 +61,6 @@ export const levelById = (id: string) => ALL_LEVELS.find((l) => l.id === id);
 /** Position of a level inside its own course. */
 export const levelIndex = (id: string) => courseOf(id).levels.findIndex((l) => l.id === id);
 export const stepsOf = (levelId: string) => courseOf(levelId).steps;
+export const extraStepsOf = (levelId: string) => courseOf(levelId).extra;
+export const allStepsOf = (levelId: string) => [...stepsOf(levelId), ...extraStepsOf(levelId)];
+export const nextStepHref = (levelId: string) => `/lesson/${levelId}/${stepsOf(levelId)[0].id}`;

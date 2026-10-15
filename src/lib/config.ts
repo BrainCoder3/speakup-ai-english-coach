@@ -10,6 +10,10 @@ export const CONFIG = {
   /** Passing scores (0-100): you cannot move on until you reach them. */
   pass: {
     learn: 80, // quiz on the unit theory (Spanish course)
+    spelling: 80, // vocabulary written from memory, first try (Spanish)
+    exercises: 80, // fill-in-the-blank exercises, first try (Spanish)
+    translation: 75, // French → Spanish sentences, first try
+    writing: 75, // written text, after correcting every mistake
     repeat: 85, // each "listen & repeat" sentence
     listen: 70, // each listening-comprehension question
     answer: 70, // each spoken answer (any grammar fix = fail)

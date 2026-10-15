@@ -8,6 +8,10 @@ import { isLevelUnlocked, isStepUnlocked, nextStep } from "@/lib/progress/rules"
 import { courseOf, levelById } from "@/data/courses";
 import { courseOfLevel, setCourse } from "@/lib/course/lang";
 import { LearnStep } from "@/components/learn/LearnStep";
+import { DrillStep } from "@/components/write/DrillStep";
+import { TranslateStep } from "@/components/write/TranslateStep";
+import { VocabStep } from "@/components/write/VocabStep";
+import { WriteStep } from "@/components/write/WriteStep";
 import type { StepId } from "@/data/types";
 import { CorrectionsPanel } from "@/components/feedback/CorrectionsPanel";
 import { PanelProvider } from "@/components/feedback/PanelContext";
@@ -38,11 +42,13 @@ export function LessonView({ levelId, step }: { levelId: string; step: StepId })
     else router.replace("/");
   }, [ready, allowed, level, levelId, router]);
 
+  // The corrections panel only serves the spoken conversation steps.
+  const spoken = step === "answer" || step === "mission";
   if (!allowed || !level) return <div className="page"><p className="muted">Chargement…</p></div>;
 
   return (
     <PanelProvider>
-      <div className="workspace">
+      <div className={`workspace ${spoken ? "" : "solo"}`}>
         <div className="page lesson">
           <header className="page-head">
             <div>
@@ -55,6 +61,10 @@ export function LessonView({ levelId, step }: { levelId: string; step: StepId })
           <ReviewGate>
             <div className="stage" key={step}>
               {step === "learn" && <LearnStep level={level} />}
+              {step === "vocab" && <VocabStep level={level} />}
+              {step === "drill" && <DrillStep level={level} />}
+              {step === "translate" && <TranslateStep level={level} />}
+              {step === "write" && <WriteStep level={level} />}
               {step === "repeat" && <RepeatStep level={level} />}
               {step === "listen" && <ListenStep level={level} />}
               {step === "answer" && <AnswerStep level={level} />}
@@ -63,7 +73,7 @@ export function LessonView({ levelId, step }: { levelId: string; step: StepId })
             </div>
           </ReviewGate>
         </div>
-        <CorrectionsPanel empty="Les corrections détaillées de la mission apparaîtront ici, avec les explications en français." />
+        {spoken && <CorrectionsPanel empty="Les corrections détaillées de la mission apparaîtront ici, avec les explications en français." />}
       </div>
     </PanelProvider>
   );

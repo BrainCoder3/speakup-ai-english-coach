@@ -29,3 +29,4 @@
 .option.dim { opacity: .5; }
 .missed { margin-left: 18px; display: flex; flex-direction: column; gap: 4px; line-height: 1.45; }
 .course-switch { margin: 4px 0; }
+.tabs.extra { margin-top: -6px; align-items: center; } .tabs.extra .tab { padding: 6px 10px; font-size: 13px; opacity: .85; } .extra-label { font-size: 13px; font-weight: 800; color: var(--muted); }

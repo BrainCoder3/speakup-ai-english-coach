@@ -50,6 +50,8 @@ export interface ErrorItem {
   explication: string;
   box: number;
   due: string;
+  /** Language of the sentence: Spanish errors are reviewed in writing. */
+  lang?: CourseId;
 }
 
 export interface AppData {

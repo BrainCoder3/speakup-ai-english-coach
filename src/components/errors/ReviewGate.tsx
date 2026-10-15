@@ -3,10 +3,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { dueErrors, MAX_DUE } from "@/lib/errors/bank";
+import { activeCourse } from "@/lib/course/lang";
 import { Icon } from "@/components/ui/Icon";
 
 export function ReviewGate({ children }: { children: ReactNode }) {
-  const due = dueErrors().length;
+  const due = dueErrors().filter((e) => (e.lang ?? "en") === activeCourse()).length;
   if (due >= MAX_DUE) {
     return (
       <div className="celebrate fail">

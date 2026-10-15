@@ -1,7 +1,7 @@
 /** What happens when a step is passed: stars, XP, next step or next level. */
 import { CONFIG } from "@/lib/config";
 import { passStep } from "@/lib/progress/rules";
-import { courseOf, levelIndex, stepsOf } from "@/data/courses";
+import { allStepsOf, courseOf, levelIndex, nextStepHref, stepsOf } from "@/data/courses";
 import type { Level, StepId } from "@/data/types";
 
 export interface Celebration {
@@ -17,7 +17,17 @@ export function completeStep(level: Level, step: StepId, avg: number): Celebrati
   const STEPS = stepsOf(level.id);
   const { levels, unit } = courseOf(level.id);
   const idx = STEPS.findIndex((s) => s.id === step);
-  if (step === "mission" && r.levelDone) {
+  if (idx === -1) {
+    // Optional step (e.g. speaking in the Spanish course): back to the required path.
+    return {
+      title: `Épreuve facultative validée : ${allStepsOf(level.id).find((s) => s.id === step)?.label}`,
+      text: `Moyenne ${avg}/100.`,
+      stars: r.stars,
+      nextLabel: "Retour au parcours",
+      href: nextStepHref(level.id),
+    };
+  }
+  if (idx === STEPS.length - 1 && r.levelDone) {
     const next = levels[levelIndex(level.id) + 1];
     return {
       title: `${unit} ${level.n} validé${unit === "Unidad" ? "e" : ""} !`,

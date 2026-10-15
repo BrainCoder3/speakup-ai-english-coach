@@ -34,3 +34,31 @@ export interface Learn {
   culture: string;
   quiz: QuizQuestion[];
 }
+
+/** "Quand utiliser quoi ?": a choice between forms, with the rule for each. */
+export interface WhenCard {
+  title: string;
+  rows: { use: string; when: string; ex: string }[];
+  /** The classic mistake, written as « ✗ wrong → ✓ right ». */
+  trap: string;
+}
+
+/** Fill-in-the-blank: "___" in the sentence; any answer in the list is right. */
+export interface DrillItem {
+  s: string;
+  a: string[];
+  /** Shown before answering (infinitive, hint). */
+  hint: string;
+  why: string;
+}
+
+/** French sentence to write in Spanish; several correct versions accepted. */
+export interface TranslateItem {
+  fr: string;
+  es: string[];
+}
+
+export interface Practice {
+  drills: DrillItem[];
+  translate: TranslateItem[];
+}

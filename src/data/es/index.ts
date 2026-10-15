@@ -2,7 +2,7 @@
  * Spanish course, following the syllabus of the textbook "Aula Internacional Plus 1" (A1):
  * same units, goals, grammar, vocabulary and phonetics — with original sentences and exercises.
  */
-import type { Learn } from "../learnTypes";
+import type { Learn, Practice, WhenCard } from "../learnTypes";
 import type { Level, ListeningText, SpeakingTopic } from "../types";
 import { u0 } from "./u0";
 import { u1 } from "./u1";
@@ -17,6 +17,8 @@ import { u9 } from "./u9";
 import { LEARN_PARTS } from "./learn";
 import { QUIZZES } from "./quiz";
 import { LISTEN_PARTS } from "./listening";
+import { PRACTICES } from "./practice";
+import { WHEN } from "./when";
 import { speakingEsA } from "./speaking/a";
 import { speakingEsB } from "./speaking/b";
 import { speakingEsC } from "./speaking/c";
@@ -27,6 +29,10 @@ export const ES_LEVELS: Level[] = [u0, u1, u2, u3, u4, u5, u6, u7, u8, u9];
 export const ES_LEARN: Record<string, Learn> = Object.fromEntries(
   ES_LEVELS.map((l, i) => [l.id, { ...LEARN_PARTS[i], quiz: QUIZZES[i] }]),
 );
+
+/** "Quand utiliser quoi ?" cards and written exercises, keyed by level id. */
+export const ES_WHEN: Record<string, WhenCard[]> = Object.fromEntries(ES_LEVELS.map((l, i) => [l.id, WHEN[i]]));
+export const ES_PRACTICE: Record<string, Practice> = Object.fromEntries(ES_LEVELS.map((l, i) => [l.id, PRACTICES[i]]));
 
 export const ES_LISTENING: Record<string, ListeningText[]> = Object.fromEntries(ES_LEVELS.map((l, i) => [l.id, LISTEN_PARTS[i]]));
 

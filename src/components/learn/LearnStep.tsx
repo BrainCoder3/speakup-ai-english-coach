@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { itemScore, recordItem } from "@/lib/progress/rules";
-import { ES_LEARN } from "@/data/es";
+import { ES_LEARN, ES_WHEN } from "@/data/es";
 import type { Level } from "@/data/types";
 import { Celebrate } from "@/components/lesson/Celebrate";
 import { completeStep, type Celebration } from "@/components/lesson/completion";
 import { Icon } from "@/components/ui/Icon";
 import { Quiz } from "./Quiz";
 import { TheoryCard } from "./TheoryCard";
+import { WhenCards } from "./WhenCards";
 import { PhoneticsCard, VocabCard } from "./VocabCard";
 
 const PASS = CONFIG.pass.learn;
@@ -40,6 +41,7 @@ export function LearnStep({ level }: { level: Level }) {
         <ul>{learn.can.map((c) => <li key={c}>✓ {c}</li>)}</ul>
       </section>
       {learn.theory.map((t, k) => <TheoryCard key={t.title} point={t} n={k + 1} />)}
+      <WhenCards cards={ES_WHEN[level.id] ?? []} />
       <VocabCard vocab={learn.vocab} />
       <PhoneticsCard p={learn.phonetics} culture={learn.culture} />
 
