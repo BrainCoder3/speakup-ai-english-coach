@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useListening } from "@/lib/speech/useListening";
 import { Icon } from "@/components/ui/Icon";
+import { lang } from "@/lib/course/lang";
 
 interface Props {
   busy: boolean;
@@ -52,7 +53,7 @@ export function Composer(p: Props) {
         </button>
         {p.allowTyping ? (
           <form className="type" onSubmit={submit}>
-            <input value={text} onChange={(e) => setText(e.target.value)} placeholder="…ou écris en anglais" autoComplete="off" />
+            <input value={text} onChange={(e) => setText(e.target.value)} placeholder={`…ou écris en ${lang().fr}`} autoComplete="off" />
             <button aria-label="Envoyer"><Icon name="send" /></button>
           </form>
         ) : (

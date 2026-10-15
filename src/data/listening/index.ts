@@ -7,11 +7,13 @@ import { listening5 } from "./l5";
 import { listening6 } from "./l6";
 import { listening7 } from "./l7";
 import { listening8 } from "./l8";
+import { ES_LISTENING } from "../es";
 
-/** Listening texts per level id. */
+/** Listening texts per level id (English and Spanish). */
 export const LISTENING: Record<string, ListeningText[]> = {
   l1: listening1, l2: listening2, l3: listening3, l4: listening4,
   l5: listening5, l6: listening6, l7: listening7, l8: listening8,
+  ...ES_LISTENING,
 };
 
 /** Each question gets one index in the step's score table: text k, question q. */

@@ -1,8 +1,11 @@
 /** Persisted learner data. */
 import type { StepId } from "@/data/types";
 import type { FreeLevel } from "@/data/scenarios";
+import type { CourseId } from "@/lib/course/lang";
 
 export interface Settings {
+  /** Language being learnt. */
+  course: CourseId;
   voice: string | null;
   rate: number;
   handsfree: boolean;
@@ -60,7 +63,7 @@ export interface AppData {
 
 export const defaults = (): AppData => ({
   version: 2,
-  settings: { voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, freeLevel: "intermediate", freeScenario: "free" },
+  settings: { course: "en", voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, freeLevel: "intermediate", freeScenario: "free" },
   levels: {},
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],

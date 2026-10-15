@@ -1,9 +1,11 @@
 "use client";
-/** "Comment dit-on… ?" — French to natural spoken English. */
+/** "Comment dit-on… ?" — French to the language being learnt. */
 import { useRef, useState, type FormEvent } from "react";
 import { translate } from "@/lib/ai/tasks/exercises";
 import { speak } from "@/lib/speech/tts";
 import { Typing } from "@/components/ui/Icon";
+import { lang } from "@/lib/course/lang";
+import { useStore } from "@/lib/store/useStore";
 
 type Result = { en: string; alternatives: string[]; note_fr: string };
 
@@ -13,6 +15,7 @@ export function TranslateButton() {
   const [loading, setLoading] = useState(false);
   const [res, setRes] = useState<Result | null>(null);
   const [error, setError] = useState("");
+  const ready = useStore(); // the language comes from saved settings, known only in the browser
 
   const run = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,7 +38,7 @@ export function TranslateButton() {
       <button className="btn" onClick={() => dlg.current?.showModal()}>🔤 Comment dit-on… ?</button>
       <dialog ref={dlg}>
         <form className="dlg" onSubmit={run}>
-          <h3>Comment dit-on… ?</h3>
+          <h3>Comment dit-on{ready ? ` en ${lang().fr} ${lang().flag}` : ""} ?</h3>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Écris en français : « Je cherche du travail »" />
           <div className="sayout">
             {loading && <Typing />}

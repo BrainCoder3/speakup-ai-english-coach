@@ -1,17 +1,13 @@
 /**
- * Speech-to-text.
- * - short mode: listen() resolves when the learner pauses (repeat drills);
- * - long mode: it keeps recording through pauses until the learner says
- *   "I'm done recording" (or clicks the mic again).
+ * Speech-to-text. Short mode resolves on a pause (repeat drills); long mode keeps
+ * recording through pauses until the stop phrase ("I'm done recording", "He terminado").
  */
 import { CONFIG } from "@/lib/config";
+import { lang } from "@/lib/course/lang";
 import { endsWithStop, withoutStop } from "./stopPhrase";
 import { stopSpeaking } from "./tts";
 
-export interface Heard {
-  text: string;
-  confidence: number;
-}
+export type Heard = { text: string; confidence: number };
 
 let current: { stop: () => void } | null = null;
 const listeners = new Set<(on: boolean) => void>();
@@ -29,8 +25,7 @@ export function onListeningChange(fn: (on: boolean) => void) {
 export function listen(onInterim?: (text: string) => void, opts: { long?: boolean } = {}): Promise<Heard> {
   const SR = Ctor();
   if (!SR) return Promise.reject(new Error("unsupported"));
-  stop();
-  stopSpeaking();
+  stop(), stopSpeaking();
   const long = !!opts.long;
   const { silenceMs, longSilenceMs, maxMs, longMaxMs } = CONFIG.speech;
   return new Promise((resolve, reject) => {
@@ -42,7 +37,7 @@ export function listen(onInterim?: (text: string) => void, opts: { long?: boolea
 
     function start() {
       rec = new SR!();
-      rec.lang = CONFIG.speech.lang;
+      rec.lang = lang().speech;
       rec.interimResults = true;
       rec.continuous = true;
       rec.maxAlternatives = 1;
@@ -74,7 +69,9 @@ export function listen(onInterim?: (text: string) => void, opts: { long?: boolea
       ended = true;
       clearTimeout(silence);
       clearTimeout(hard);
-      if (current === handle) (current = null), emit(false);
+      if (current !== handle) return;
+      current = null;
+      emit(false);
     }
     function finish() {
       if (ended) return;
@@ -84,7 +81,9 @@ export function listen(onInterim?: (text: string) => void, opts: { long?: boolea
       resolve({ text: withoutStop(finalText), confidence });
     }
     function fail(err: Error) {
-      if (!ended) cleanup(), reject(err);
+      if (ended) return;
+      cleanup();
+      reject(err);
     }
 
     current = handle;

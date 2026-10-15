@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { speak } from "@/lib/speech/tts";
 import { Icon, Stars } from "@/components/ui/Icon";
 import type { Celebration } from "./completion";
+import { say } from "@/lib/course/phrases";
 
 /** Success screen after passing a step or a whole level. */
 export function Celebrate({ c }: { c: Celebration }) {
   useEffect(() => {
-    speak("Congratulations! Well done!");
+    speak(say("congrats"));
   }, []);
   return (
     <div className="celebrate">
@@ -23,7 +24,7 @@ export function Celebrate({ c }: { c: Celebration }) {
 /** Failure screen: the learner must retry. */
 export function TryAgain({ score, needed, onRetry }: { score: number; needed: number; onRetry: () => void }) {
   useEffect(() => {
-    speak("Not yet. Read your corrections and try again. You can do it!");
+    speak(say("notYet"));
   }, []);
   return (
     <div className="celebrate fail">

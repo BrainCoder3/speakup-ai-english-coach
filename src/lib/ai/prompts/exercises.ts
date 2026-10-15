@@ -1,4 +1,6 @@
 /** Prompts for graded answers and helper tools (suggestions, translation). */
+import { lang } from "@/lib/course/lang";
+import { ex } from "./examples";
 
 export const ANSWER_SCHEMA = {
   type: "object",
@@ -12,7 +14,7 @@ export const ANSWER_SCHEMA = {
   required: ["score", "relevant", "corrected", "feedback_fr", "fix_en"],
 };
 
-export const answerPrompt = (p: { question: string; said: string; cefr: string; target: string }) => `You are a strict but kind English examiner. Level expected: ${p.cefr}. Lesson focus: ${p.target}.
+export const answerPrompt = (p: { question: string; said: string; cefr: string; target: string }) => `You are a strict but kind ${lang().name} examiner. Level expected: ${p.cefr}. Lesson focus: ${p.target}.
 Question asked: "${p.question}"
 Learner's spoken answer (speech-recognition transcript, ignore punctuation/capitals): "${p.said}"
 
@@ -21,8 +23,9 @@ Grade it and return JSON:
 - "relevant": does it answer the question?
 - "corrected": the learner's answer rewritten correctly (keep their idea; if empty or off-topic, write a good model answer).
 - "feedback_fr": 1-2 short sentences IN FRENCH: what was good and what to fix.
-- "fix_en": one short spoken correction in simple English (max 15 words), or "Great answer!" if perfect.
-Example: question "What did you do yesterday?", answer "yesterday I go to work" -> {"score":55,"relevant":true,"corrected":"Yesterday I went to work.","feedback_fr":"Bonne idée, mais il faut le prétérit : go devient went.","fix_en":"Say I went, not I go, because it was yesterday."}`;
+- "fix_en": one short spoken correction in simple ${lang().name} (max 15 words), or a short praise in ${lang().name} if perfect.
+${ex().traps}
+Example: ${ex().answer}`;
 
 export const SUGGEST_SCHEMA = {
   type: "object",
@@ -30,7 +33,7 @@ export const SUGGEST_SCHEMA = {
   required: ["answers"],
 };
 export const suggestPrompt = (question: string, cefr: string) =>
-  `An English learner (level ${cefr}) must answer: "${question}". Give 3 short, natural possible answers at their level, each with a French translation.`;
+  `A ${lang().name} learner (level ${cefr}) must answer: "${question}". Give 3 short, natural possible answers at their level, each with a French translation.`;
 
 export const TRANSLATE_SCHEMA = {
   type: "object",
@@ -38,4 +41,4 @@ export const TRANSLATE_SCHEMA = {
   required: ["en", "alternatives", "note_fr"],
 };
 export const translatePrompt = (fr: string, cefr: string) =>
-  `Translate this French into natural spoken English for a ${cefr} learner: "${fr}". Give the best translation, 2 alternatives, and one short usage note in French.`;
+  `Translate this French into natural spoken ${lang().name} for a ${cefr} learner: "${fr}". Give the best translation, 2 alternatives, and one short usage note in French.`;

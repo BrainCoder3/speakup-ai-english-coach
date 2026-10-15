@@ -1,13 +1,14 @@
 "use client";
 import Link from "next/link";
 import type { Level } from "@/data/types";
-import { STEPS } from "@/data/levels";
+import { courseOf, stepsOf } from "@/data/courses";
 import { isLevelPassed, isLevelUnlocked, levelProgress, nextStep } from "@/lib/progress/rules";
 import { Icon, Stars } from "@/components/ui/Icon";
 
 /** One level on the path: locked, current or passed. */
-export function LevelCard({ level, index, current }: { level: Level; index: number; current: boolean }) {
-  const unlocked = isLevelUnlocked(index);
+export function LevelCard({ level, current }: { level: Level; current: boolean }) {
+  const STEPS = stepsOf(level.id);
+  const unlocked = isLevelUnlocked(level.id);
   const passed = isLevelPassed(level.id);
   const p = levelProgress(level.id);
   const done = STEPS.filter((s) => p[s.id].passed).length;
@@ -20,7 +21,7 @@ export function LevelCard({ level, index, current }: { level: Level; index: numb
           <span className="cefr">{level.cefr}</span>
           {passed ? <span className="done">Validé</span> : current ? <span className="now">En cours</span> : null}
         </div>
-        <h3>Niveau {level.n} · {level.title}</h3>
+        <h3>{courseOf(level.id).unit} {level.n} · {level.title}</h3>
         <p>{level.subtitle}</p>
         <div className="steps">
           {STEPS.map((s) => (

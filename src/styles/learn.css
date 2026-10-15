@@ -1,0 +1,31 @@
+/* "Comprendre la leçon": theory cards, tables, vocabulary, quiz */
+.goal ul { list-style: none; display: grid; gap: 4px; font-weight: 700; }
+.theory { display: flex; flex-direction: column; gap: 10px; line-height: 1.55; }
+.theory h3 { display: flex; align-items: center; gap: 10px; font-size: 18px; }
+.theory b { color: var(--teal); }
+.tnum { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); color: #fff; display: grid; place-items: center; font-size: 14px; flex: none; }
+.ttable-wrap { overflow-x: auto; }
+.ttable { border-collapse: collapse; min-width: 320px; font-size: 15px; }
+.ttable th, .ttable td { border: 1px solid var(--line); padding: 6px 10px; text-align: left; }
+.ttable th { background: var(--teal-soft); color: var(--teal); font-weight: 900; }
+.ttable td b { color: var(--red); }
+.texamples { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.texamples li { display: flex; align-items: center; gap: 6px; }
+.texamples span { display: flex; flex-direction: column; }
+.texamples b { color: var(--ink); font-size: 16px; }
+.texamples small { color: var(--muted); font-weight: 600; }
+.vgroup h4 { font-size: 14px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 10px 0 6px; }
+.vwords { display: flex; flex-wrap: wrap; gap: 6px; }
+.vword { border: 1px solid var(--line); background: var(--paper); border-radius: 12px; padding: 6px 10px; display: flex; flex-direction: column; align-items: flex-start; text-align: left; }
+.vword:hover { border-color: var(--teal); background: var(--teal-soft); }
+.vword small { color: var(--muted); font-weight: 600; font-size: 12px; }
+.twocol { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.twocol p { line-height: 1.55; }
+.options { display: grid; gap: 8px; }
+.option { text-align: left; border: 2px solid var(--line); background: var(--paper); border-radius: 14px; padding: 12px 14px; font-weight: 800; font-size: 16px; }
+.option:hover:not(:disabled) { border-color: var(--teal); }
+.option.right { border-color: var(--green); background: var(--green-soft); }
+.option.wrong { border-color: var(--red); background: var(--red-soft); }
+.option.dim { opacity: .5; }
+.missed { margin-left: 18px; display: flex; flex-direction: column; gap: 4px; line-height: 1.45; }
+.course-switch { margin: 4px 0; }

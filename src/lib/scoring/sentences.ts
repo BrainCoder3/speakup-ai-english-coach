@@ -3,11 +3,22 @@
  * model can check reliably. Boundaries: line breaks (pauses), punctuation, then
  * the start of a new clause ("I", "we", "then", "but"…) once a piece is long enough.
  */
-const CLAUSE_START = /^(i|we|he|she|they|it|there|then|so|but|after|suddenly|finally|however|later)$/i;
-/** Never cut right after these words ("and | I", "to | play"…). */
-const GLUE = /^(i|we|he|she|they|it|then|and|or|because|that|when|if|but|so|to|with|of|the|a|an|in|on|at|for|my|your|his|her|our|their|very|not|than|as)$/i;
+import { lang } from "@/lib/course/lang";
+
+const RULES = {
+  en: {
+    start: /^(i|we|he|she|they|it|there|then|so|but|after|suddenly|finally|however|later)$/i,
+    /** Never cut right after these words ("and | I", "to | play"…). */
+    glue: /^(i|we|he|she|they|it|then|and|or|because|that|when|if|but|so|to|with|of|the|a|an|in|on|at|for|my|your|his|her|our|their|very|not|than|as)$/i,
+  },
+  es: {
+    start: /^(yo|tú|tu|él|ella|nosotros|nosotras|vosotros|ellos|ellas|usted|luego|después|despues|entonces|pero|además|ademas|primero|finalmente|también|tambien|hay)$/i,
+    glue: /^(yo|tú|tu|él|ella|nosotros|ellos|y|e|o|u|que|porque|cuando|si|pero|a|al|de|del|con|en|el|la|los|las|un|una|unos|unas|mi|mis|su|sus|muy|no|por|para|me|te|se|nos|lo|le|les|más|mas|como)$/i,
+  },
+};
 
 export function splitSpeech(text: string, min = 5, max = 18): string[] {
+  const { start: CLAUSE_START, glue: GLUE } = RULES[lang().id];
   const pieces = text.split(/(?<=[.!?])\s+|\n+/).map((p) => p.trim()).filter(Boolean);
   const out: string[] = [];
   for (const piece of pieces) {

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import type { StepId } from "@/data/types";
-import { STEPS } from "@/data/levels";
+import { stepsOf } from "@/data/courses";
 import { isStepUnlocked, levelProgress } from "@/lib/progress/rules";
 import { Stars } from "@/components/ui/Icon";
 
@@ -10,7 +10,7 @@ export function StepTabs({ levelId, active }: { levelId: string; active: StepId 
   const p = levelProgress(levelId);
   return (
     <nav className="tabs">
-      {STEPS.map((s) => {
+      {stepsOf(levelId).map((s) => {
         const unlocked = isStepUnlocked(levelId, s.id);
         const cls = `tab ${s.id === active ? "on" : ""} ${p[s.id].passed ? "ok" : ""}`;
         const inner = (

@@ -7,6 +7,7 @@ import { recordItem } from "@/lib/progress/rules";
 import { trackScore, trackSpeech } from "@/lib/progress/stats";
 import { isListening, listen, stop, sttSupported } from "@/lib/speech/stt";
 import { speak } from "@/lib/speech/tts";
+import { say } from "@/lib/course/phrases";
 
 export interface ListenAnswerState {
   live: string;
@@ -45,7 +46,7 @@ export function useListenAnswer(a: Args) {
       trackScore("grammar", g.score);
       recordItem(a.levelId, "listen", a.index, g.score);
       setS((x) => ({ ...x, grading: false, grade: g, tries: x.tries + 1 }));
-      speak(g.understood ? "Correct! " + g.corrected : "Not quite. Listen again.");
+      speak(g.understood ? `${say("correct")} ${g.corrected}` : say("listenAgain"));
     } catch {
       setS((x) => ({ ...x, grading: false, error: "L'IA ne répond pas. Vérifie Ollama." }));
     }

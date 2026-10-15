@@ -30,7 +30,7 @@ export function Sidebar() {
         </svg>
         <div>
           <b>SpeakUp</b>
-          <small>Coach d&apos;anglais</small>
+          <small>Anglais & espagnol</small>
         </div>
       </div>
       <StatusBadge />

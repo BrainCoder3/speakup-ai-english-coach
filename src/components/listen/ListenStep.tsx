@@ -1,9 +1,9 @@
 "use client";
-/** Step 2 — listening comprehension: real English, many accents, spoken answers. */
+/** Listening comprehension: real speech, many accents, spoken answers. */
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { itemScore, stepAverage } from "@/lib/progress/rules";
-import { STOP_HINT } from "@/lib/speech/stopPhrase";
+import { stopHint } from "@/lib/speech/stopPhrase";
 import { LISTENING, questionCount, questionIndex } from "@/data/listening";
 import type { Level } from "@/data/types";
 import { Celebrate, Dots } from "@/components/lesson/Celebrate";
@@ -37,8 +37,8 @@ export function ListenStep({ level }: { level: Level }) {
         <div>
           <h2>👂 Compréhension orale</h2>
           <p>
-            Écoute de vrais anglais (accents du monde entier), puis réponds à l&apos;oral. Il faut <b>{PASS}/100</b> à chaque
-            question. Quand tu as fini ta réponse, dis <b>« {STOP_HINT} »</b>.
+            Écoute de vrais dialogues (accents du monde entier), puis réponds à l&apos;oral. Il faut <b>{PASS}/100</b> à chaque
+            question. Quand tu as fini ta réponse, dis <b>« {stopHint()} »</b>.
           </p>
         </div>
       </div>

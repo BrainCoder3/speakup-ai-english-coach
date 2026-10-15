@@ -15,6 +15,7 @@ import { usedExpressions } from "@/lib/scoring/expressions";
 import { isListening, listen, stop, sttSupported } from "@/lib/speech/stt";
 import { speak } from "@/lib/speech/tts";
 import type { SpeakingTopic } from "@/data/types";
+import { mistakesLine, say } from "@/lib/course/phrases";
 
 export type SpeakPhase = "ready" | "short" | "reviewing" | "review" | "fix" | "passed";
 
@@ -52,8 +53,8 @@ export function useSpeakTask(levelId: string, cefr: string, index: number, topic
       const good = round > 1 && r.score >= pass;
       if (good && !r.fixes.length) recordItem(levelId, "speak", index, r.score);
       setS((x) => ({ ...x, review: r, passAfterFixes: good, phase: good && !r.fixes.length ? "passed" : "review", fixIndex: 0 }));
-      if (good) speak(r.fixes.length ? "Very good! Fix your last mistakes and you're done." : "Excellent! You really improved.");
-      else speak(r.fixes.length ? `You made ${r.fixes.length} mistakes. Let's fix them together.` : "Good. Now say more, with more details.");
+      if (good) speak(say(r.fixes.length ? "lastFixes" : "improved"));
+      else speak(r.fixes.length ? mistakesLine(r.fixes.length) : say("sayMore"));
     } catch {
       setS((x) => ({ ...x, phase: "short", error: "L'IA ne répond pas. Vérifie Ollama, puis réessaie." }));
     }
@@ -73,7 +74,7 @@ export function useSpeakTask(levelId: string, cefr: string, index: number, topic
     const enough = countWords(all) >= minWordsFor(topic, s.round) && expressionsUsed(topic, all) >= topic.mustUse;
     setS((x) => ({ ...x, live: "", transcript: all, error: "", phase: enough ? "reviewing" : "short" }));
     if (enough) analyse(all, s.round);
-    else speak("Keep going! Say more, and use the expressions.");
+    else speak(say("keepGoing"));
   }, [s.transcript, s.round, topic, analyse]);
 
   /** A corrected sentence was repeated correctly: next one, validation, or talk again. */

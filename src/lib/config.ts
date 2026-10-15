@@ -9,6 +9,7 @@ export const CONFIG = {
 
   /** Passing scores (0-100): you cannot move on until you reach them. */
   pass: {
+    learn: 80, // quiz on the unit theory (Spanish course)
     repeat: 85, // each "listen & repeat" sentence
     listen: 70, // each listening-comprehension question
     answer: 70, // each spoken answer (any grammar fix = fail)
@@ -20,6 +21,6 @@ export const CONFIG = {
   answerFallbackAfter: 2,
 
   /** Short answers end on a pause; long ones end when you say "I'm done recording". */
-  speech: { lang: "en-US", silenceMs: 1800, maxMs: 25000, longSilenceMs: 20000, longMaxMs: 240000 },
+  speech: { silenceMs: 1800, maxMs: 25000, longSilenceMs: 20000, longMaxMs: 240000 },
   storageKey: "speakup:v2",
 } as const;

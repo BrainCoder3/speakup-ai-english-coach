@@ -3,8 +3,8 @@ import type { Scenario } from "./types";
 /** Free-talk levels (no grading gate). */
 export const FREE_LEVELS = {
   beginner: { cefr: "A2", label: "Débutant", style: "very short, simple sentences (max 12 words), very common words" },
-  intermediate: { cefr: "B1-B2", label: "Intermédiaire", style: "natural everyday English, 1-3 sentences, a few useful idioms" },
-  advanced: { cefr: "C1", label: "Avancé", style: "fluent, idiomatic English, 2-3 sentences, varied structures" },
+  intermediate: { cefr: "B1-B2", label: "Intermédiaire", style: "natural everyday language, 1-3 sentences, a few useful idioms" },
+  advanced: { cefr: "C1", label: "Avancé", style: "fluent, idiomatic language, 2-3 sentences, varied structures" },
 } as const;
 export type FreeLevel = keyof typeof FREE_LEVELS;
 

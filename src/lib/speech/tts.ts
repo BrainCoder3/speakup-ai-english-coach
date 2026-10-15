@@ -1,22 +1,21 @@
 /** Text-to-speech with the browser voices (Edge "Natural" voices sound best). */
 import { store } from "@/lib/store/store";
-
-const PREFS = [/Ava.*Natural/i, /Andrew.*Natural/i, /Emma.*Natural/i, /Brian.*Natural/i, /Jenny.*Natural/i,
-  /Aria.*Natural/i, /Guy.*Natural/i, /Sonia.*Natural/i, /Natural/i, /Google US English/i, /Zira/i, /David/i];
+import { lang } from "@/lib/course/lang";
 
 let pending = 0;
 let waiters: (() => void)[] = [];
 const synth = () => (typeof window !== "undefined" ? window.speechSynthesis : undefined);
 
-export const englishVoices = (): SpeechSynthesisVoice[] =>
-  (synth()?.getVoices() ?? []).filter((v) => /^en[-_]/i.test(v.lang));
+/** Every voice of the language being learnt. */
+export const courseVoices = (): SpeechSynthesisVoice[] =>
+  (synth()?.getVoices() ?? []).filter((v) => lang().voices.test(v.lang));
 
 export function bestVoice(): SpeechSynthesisVoice | null {
-  const list = englishVoices();
+  const list = courseVoices();
   const saved = list.find((v) => v.name === store.settings().voice);
   if (saved) return saved;
-  for (const re of PREFS) {
-    const v = list.find((x) => re.test(x.name) && /en-US|en-GB/i.test(x.lang));
+  for (const re of lang().prefs) {
+    const v = list.find((x) => re.test(x.name));
     if (v) return v;
   }
   return list[0] ?? null;
@@ -43,7 +42,7 @@ export function speak(text: string, opts: { rate?: number; voice?: SpeechSynthes
     const u = new SpeechSynthesisUtterance(text);
     const v = opts.voice ?? bestVoice();
     if (v) u.voice = v;
-    u.lang = v?.lang ?? "en-US";
+    u.lang = v?.lang ?? lang().speech;
     u.rate = opts.rate ?? store.settings().rate;
     pending++;
     u.onend = u.onerror = () => {

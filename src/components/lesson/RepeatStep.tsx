@@ -9,6 +9,7 @@ import { Drill } from "@/components/drill/Drill";
 import { Icon } from "@/components/ui/Icon";
 import { Celebrate, Dots } from "./Celebrate";
 import { completeStep, type Celebration } from "./completion";
+import { say } from "@/lib/course/phrases";
 
 const PASS = CONFIG.pass.repeat;
 
@@ -63,7 +64,7 @@ export function RepeatStep({ level }: { level: Level }) {
           onDone={(r) => {
             recordItem(level.id, "repeat", i, r.score);
             setCanGoOn(true);
-            speak("Great!");
+            speak(say("great"));
           }}
         />
         {(canGoOn || ok(i)) && (

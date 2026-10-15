@@ -1,6 +1,8 @@
 /** Turns any sentence into comparable lowercase words. */
 import { PHRASES, canonical } from "./equivalents";
 import { spellDigits } from "./numbers";
+import { wordsEs } from "./normalizeEs";
+import { lang } from "@/lib/course/lang";
 
 const CONTRACTIONS: Record<string, string> = {
   "i'm": "i am", im: "i am", "you're": "you are", "we're": "we are", "they're": "they are",
@@ -19,6 +21,7 @@ const CONTRACTIONS: Record<string, string> = {
  * ("1:00" -> "one oclock") and homophones merged, so only real slips count.
  */
 export function words(text: string): string[] {
+  if (lang().id === "es") return wordsEs(text);
   let s = spellDigits(String(text || "").toLowerCase().replace(/[’`]/g, "'"));
   for (const [re, to] of PHRASES) s = s.replace(re, to);
   return s

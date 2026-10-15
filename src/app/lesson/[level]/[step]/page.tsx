@@ -1,15 +1,24 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { LessonView } from "@/components/lesson/LessonView";
-import { LEVELS, STEPS } from "@/data/levels";
+import { ALL_LEVELS, stepsOf } from "@/data/courses";
 import type { StepId } from "@/data/types";
 
-/** Every level × step is known at build time (static pages). */
+/** Every level × step of both courses is known at build time (static pages). */
 export function generateStaticParams() {
-  return LEVELS.flatMap((l) => STEPS.map((s) => ({ level: l.id, step: s.id })));
+  return ALL_LEVELS.flatMap((l) => stepsOf(l.id).map((s) => ({ level: l.id, step: s.id })));
 }
 
-export default async function LessonPage({ params }: PageProps<"/lesson/[level]/[step]">) {
+async function Lesson({ params }: { params: PageProps<"/lesson/[level]/[step]">["params"] }) {
   const { level, step } = await params;
-  if (!LEVELS.some((l) => l.id === level) || !STEPS.some((s) => s.id === step)) notFound();
+  if (!ALL_LEVELS.some((l) => l.id === level) || !stepsOf(level).some((s) => s.id === step)) notFound();
   return <LessonView levelId={level} step={step as StepId} />;
+}
+
+export default function LessonPage(props: PageProps<"/lesson/[level]/[step]">) {
+  return (
+    <Suspense fallback={<div className="page"><p className="muted">Chargement…</p></div>}>
+      <Lesson params={props.params} />
+    </Suspense>
+  );
 }

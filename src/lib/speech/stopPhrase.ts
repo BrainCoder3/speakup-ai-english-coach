@@ -1,13 +1,17 @@
 /**
- * The learner ends a long recording by saying a stop phrase,
- * e.g. "I'm done recording", "I am done", "I'm finished", "end of recording".
+ * The learner ends a long recording by saying a stop phrase:
+ * "I'm done recording" / "I'm done" / "end of recording" in English,
+ * "He terminado" / "Ya terminé" / "Fin de la grabación" in Spanish (both always work).
  */
-const FILLER = String.raw`(?:(?:and|so|okay|ok|well|um|uh|that's it|that is it)[\s,]+)*`;
-const PHRASE = String.raw`(?:(?:i\s*am|i'm|im)\s+(?:done|finished)(?:\s+(?:recording|speaking|talking))?|(?:(?:this|that)\s+is\s+|that's\s+)?(?:the\s+)?(?:end|stop)\s+(?:of\s+)?recording)`;
-const STOP = new RegExp(String.raw`(?:^|[\s.,!?])${FILLER}${PHRASE}[\s.,!?]*$`, "i");
+import { lang } from "@/lib/course/lang";
 
-/** Explicit form only ("…done recording"): safe to act on while the learner is still talking. */
-const EXPLICIT = /(?:recording|speaking|talking)[\s.,!?]*$/i;
+const FILLER = String.raw`(?:(?:and|so|okay|ok|well|um|uh|that's it|that is it|y|bueno|pues|vale|eso es todo)[\s,]+)*`;
+const EN = String.raw`(?:i\s*am|i'm|im)\s+(?:done|finished)(?:\s+(?:recording|speaking|talking))?|(?:(?:this|that)\s+is\s+|that's\s+)?(?:the\s+)?(?:end|stop)\s+(?:of\s+)?recording`;
+const ES = String.raw`(?:ya\s+)?(?:he\s+terminado|termin[eé]|acab[eé]|he\s+acabado)(?:\s+de\s+(?:grabar|hablar))?|(?:es\s+el\s+)?fin\s+de\s+(?:la\s+)?grabaci[oó]n`;
+const STOP = new RegExp(String.raw`(?:^|[\s.,!?¡¿])${FILLER}(?:${EN}|${ES})[\s.,!?]*$`, "i");
+
+/** Explicit form only ("…done recording", "…de grabar"): safe to act on while the learner is still talking. */
+const EXPLICIT = /(?:recording|speaking|talking|grabar|hablar|grabaci[oó]n|he terminado)[\s.,!?]*$/i;
 
 /**
  * True when the transcript ends with a stop phrase. On a live (interim) transcript only the
@@ -19,4 +23,4 @@ export const endsWithStop = (text: string, live = false) => STOP.test(text.trim(
 export const withoutStop = (text: string) => text.trim().replace(STOP, "").trim();
 
 /** Shown in the UI so the learner knows how to finish. */
-export const STOP_HINT = "I'm done recording";
+export const stopHint = () => lang().stopHint;

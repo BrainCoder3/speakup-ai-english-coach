@@ -10,6 +10,7 @@ import { trackMistakes, trackScore, trackSpeech } from "@/lib/progress/stats";
 import { saveErrors } from "@/lib/errors/bank";
 import { coachReply } from "./coachReply";
 import type { TurnApi } from "./types";
+import { say } from "@/lib/course/phrases";
 
 const lastCoachLine = (api: TurnApi) => [...api.history].reverse().find((m) => m.role === "assistant")?.content ?? "";
 
@@ -19,10 +20,10 @@ async function spokenCorrection(api: TurnApi, text: string, context: string) {
     if (!api.alive() || !q.hasError) return;
     saveErrors([{ said: text, corrected: q.corrected, explication: q.fix }]);
     const id = api.add({ role: "coach", kind: "fix", text: q.fix, corrected: q.corrected });
-    await speak(`Almost! ${q.fix} Repeat after me: ${q.corrected}`);
+    await speak(`${say("almost")} ${q.fix} ${say("repeatAfterMe")} ${q.corrected}`);
     if (!api.alive()) return;
     const r = await api.waitFix(id);
-    if (api.alive()) await speak(r.passed ? "Great, well done!" : "Okay, let's keep going. We'll practise it again later.");
+    if (api.alive()) await speak(say(r.passed ? "wellDone" : "later"));
   } catch {
     /* the spoken correction is best-effort */
   }

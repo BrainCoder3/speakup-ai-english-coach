@@ -1,20 +1,27 @@
 /**
- * Review of a long monologue: each short piece is checked on its own (reliable with
- * a small model), then one quick call judges the topic, the vocabulary and fluency.
+ * Review of a long monologue, piece by piece. A small model is far more reliable at
+ * REWRITING a sentence correctly than at judging it, so: rewrite → compare in code →
+ * explain only what changed. One last call judges the topic, vocabulary and fluency.
  */
+import { lang } from "@/lib/course/lang";
+import { ex } from "./examples";
 
-export const PIECE_SCHEMA = {
-  type: "object",
-  properties: { has_error: { type: "boolean" }, corrected: { type: "string" }, explication: { type: "string" } },
-  required: ["has_error", "corrected", "explication"],
-};
+export const FIX_SCHEMA = { type: "object", properties: { fixed: { type: "string" } }, required: ["fixed"] };
 
-export const piecePrompt = (piece: string, cefr: string, expressions: string[]) => `You are an English teacher for French speakers (level ${cefr}). This is ONE PIECE of a longer spoken speech (speech transcript: ignore punctuation, capitals, numbers written as digits; it may be an incomplete sentence or start with "and/then", that is fine):
+export const fixPrompt = (piece: string, cefr: string, expressions: string[]) => `You are a ${lang().name} teacher. A learner (level ${cefr}) SAID this piece of a longer speech (speech transcript: no punctuation, numbers may be digits, it may start with "and / y"):
 "${piece}"
-Is there a real grammar or vocabulary mistake INSIDE these words (verb form, tense, agreement, article, preposition, word order, wrong word)? Style choices, missing punctuation and incomplete sentences are NOT mistakes.${expressions.length ? `\nThe learner had to use expressions like ${expressions.map((e) => `"${e}"`).join(", ")}: if one is used wrongly here, it is a mistake.` : ""}
-Return JSON: "has_error"; "corrected" = the same words with ONLY the mistakes fixed (identical if correct); "explication" = the rule IN FRENCH, max 20 words ("" if correct).
-Examples: "and I have 25 years old" -> {"has_error":true,"corrected":"and I am 25 years old","explication":"Pour l'âge on utilise be : I am 25 years old."}
-"then I live in Paris with my wife" -> {"has_error":false,"corrected":"then I live in Paris with my wife","explication":""}`;
+Rewrite it in correct ${lang().name}, fixing ONLY real grammar or vocabulary mistakes (verb endings and tenses, agreement, articles, prepositions, wrong words). Keep the same words and meaning. Do NOT improve the style. If it is already correct, copy it exactly.${expressions.length ? `\nThe learner had to use expressions like ${expressions.map((e) => `"${e}"`).join(", ")}.` : ""}
+${ex().traps}
+Examples:
+${ex().fix}`;
+
+export const EXPLAIN_SCHEMA = { type: "object", properties: { explication: { type: "string" } }, required: ["explication"] };
+
+export const explainPrompt = (said: string, fixed: string) => `A ${lang().name} learner said: "${said}"
+Correct version: "${fixed}"
+Explain IN FRENCH, in one simple sentence of max 20 words, the grammar rule behind the correction: name the person / tense / agreement concerned and give the right form. Be accurate, no greeting.
+Common rules (use the right one): ${ex().rules}
+Example: ${ex().explain}`;
 
 export const SUMMARY_SCHEMA = {
   type: "object",
@@ -22,7 +29,7 @@ export const SUMMARY_SCHEMA = {
   required: ["on_topic", "range", "feedback_fr"],
 };
 
-export const summaryPrompt = (p: { topic: string; said: string; cefr: string; errors: number }) => `An English learner (level ${p.cefr}) spoke about this task: "${p.topic}"
+export const summaryPrompt = (p: { topic: string; said: string; cefr: string; errors: number }) => `A ${lang().name} learner (level ${p.cefr}) spoke about this task: "${p.topic}"
 Transcript (no reliable punctuation): """${p.said}"""
 They made ${p.errors} grammar mistake(s) (already corrected separately).
 Return JSON: "on_topic" = does it answer the task?; "range" 0-100 = vocabulary variety, linking words and details for a ${p.cefr} learner; "feedback_fr" = 2 short sentences IN FRENCH: one real strength, one priority to improve next time.`;

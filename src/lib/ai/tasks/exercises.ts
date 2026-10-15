@@ -2,6 +2,7 @@
 import { chatJSON, chatStream, type Msg } from "../client";
 import { ANSWER_SCHEMA, SUGGEST_SCHEMA, TRANSLATE_SCHEMA, answerPrompt, suggestPrompt, translatePrompt } from "../prompts/exercises";
 import { changedWords } from "@/lib/scoring/pronunciation";
+import { say } from "@/lib/course/phrases";
 
 export interface Grade {
   score: number;
@@ -27,7 +28,7 @@ export async function gradeAnswer(p: { question: string; said: string; cefr: str
   else if (r.relevant && n >= 3) {
     score = Math.max(score, p.passMark + 15);
     r.feedback_fr = "Parfait : phrase correcte, complète et qui répond à la question !";
-    r.fix_en = "Great answer!";
+    r.fix_en = say("greatAnswer");
   }
   return { ...r, score, changes };
 }

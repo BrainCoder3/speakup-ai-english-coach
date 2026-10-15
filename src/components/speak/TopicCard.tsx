@@ -2,7 +2,7 @@
 /** One long speaking task: prompt, recording, review, corrections drill, talk again. */
 import { CONFIG } from "@/lib/config";
 import { countWords } from "@/lib/ai/tasks/speaking";
-import { STOP_HINT } from "@/lib/speech/stopPhrase";
+import { stopHint } from "@/lib/speech/stopPhrase";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
 import type { Level, SpeakingTopic } from "@/data/types";
@@ -42,7 +42,7 @@ export function TopicCard({ level, index, topic }: { level: Level; index: number
           {s.phase === "short" && !recording && <p className="warn">Pas encore assez : continue (ce que tu as déjà dit est gardé) jusqu&apos;à {minWords} mots et {topic.mustUse} expressions.</p>}
           <div className="qctrls">
             <button className={`btn mic-btn big ${recording ? "rec" : ""}`} onClick={talk}>
-              <Icon name="mic" />{recording ? `J'écoute… dis « ${STOP_HINT} » pour finir` : s.transcript ? "Continuer à parler" : "Commencer à parler"}
+              <Icon name="mic" />{recording ? `J'écoute… dis « ${stopHint()} » pour finir` : s.transcript ? "Continuer à parler" : "Commencer à parler"}
             </button>
             {s.transcript && !recording && <button className="btn" onClick={restart}><Icon name="retry" />Repartir de zéro</button>}
           </div>

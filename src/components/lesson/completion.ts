@@ -1,7 +1,7 @@
 /** What happens when a step is passed: stars, XP, next step or next level. */
 import { CONFIG } from "@/lib/config";
 import { passStep } from "@/lib/progress/rules";
-import { LEVELS, STEPS, levelIndex } from "@/data/levels";
+import { courseOf, levelIndex, stepsOf } from "@/data/courses";
 import type { Level, StepId } from "@/data/types";
 
 export interface Celebration {
@@ -14,15 +14,17 @@ export interface Celebration {
 
 export function completeStep(level: Level, step: StepId, avg: number): Celebration {
   const r = passStep(level.id, step, avg);
+  const STEPS = stepsOf(level.id);
+  const { levels, unit } = courseOf(level.id);
   const idx = STEPS.findIndex((s) => s.id === step);
   if (step === "mission" && r.levelDone) {
-    const next = LEVELS[levelIndex(level.id) + 1];
+    const next = levels[levelIndex(level.id) + 1];
     return {
-      title: `Niveau ${level.n} validé !`,
-      text: next ? `Score ${avg}/100. Le niveau ${next.n} « ${next.title} » est débloqué.` : `Score ${avg}/100. Tu as terminé tout le parcours. Bravo !`,
+      title: `${unit} ${level.n} validé${unit === "Unidad" ? "e" : ""} !`,
+      text: next ? `Score ${avg}/100. ${unit} ${next.n} « ${next.title} » débloqué${unit === "Unidad" ? "e" : ""}.` : `Score ${avg}/100. Tu as terminé tout le parcours. Bravo !`,
       stars: r.stars,
-      nextLabel: next ? `Commencer le niveau ${next.n}` : "Retour au parcours",
-      href: next ? `/lesson/${next.id}/repeat` : "/",
+      nextLabel: next ? `Commencer : ${unit} ${next.n}` : "Retour au parcours",
+      href: next ? `/lesson/${next.id}/${STEPS[0].id}` : "/",
     };
   }
   const next = STEPS[idx + 1];

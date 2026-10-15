@@ -1,7 +1,7 @@
 /** Shapes of the course content. */
 import type { Accent } from "@/lib/speech/accents";
 
-export type StepId = "repeat" | "listen" | "answer" | "speak" | "mission";
+export type StepId = "learn" | "repeat" | "listen" | "answer" | "speak" | "mission";
 
 export interface RepeatItem {
   en: string;
@@ -35,6 +35,8 @@ export interface Level {
   repeat: RepeatItem[];
   questions: Question[];
   mission: Mission;
+  /** Where this unit is in the textbook (Spanish course). */
+  book?: { unit: number; page: number };
 }
 
 export interface Scenario {

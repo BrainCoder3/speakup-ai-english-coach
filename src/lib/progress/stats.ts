@@ -1,6 +1,7 @@
 /** Practice statistics: words spoken, scores, weak points, streak. */
 import { store } from "@/lib/store/store";
-import { LEVELS } from "@/data/levels";
+import { COURSES } from "@/data/courses";
+import { activeCourse } from "@/lib/course/lang";
 import { isLevelPassed } from "./rules";
 
 export const today = () => new Date().toISOString().slice(0, 10);
@@ -48,7 +49,8 @@ export function summary() {
     words: s.words,
     grammar: average(s.scores.slice(-20)),
     pron: average(s.pron.slice(-20)),
-    levelsPassed: LEVELS.filter((l) => isLevelPassed(l.id)).length,
+    levelsPassed: COURSES[activeCourse()].levels.filter((l) => isLevelPassed(l.id)).length,
+    levelsTotal: COURSES[activeCourse()].levels.length,
     weakPoints: Object.entries(s.mistakes).sort((a, b) => b[1] - a[1]).slice(0, 3),
   };
 }

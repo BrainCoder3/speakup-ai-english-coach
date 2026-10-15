@@ -1,6 +1,6 @@
-# 🎙️ SpeakUp — Coach d'anglais oral (Next.js, gratuit, 100 % local)
+# 🎙️ SpeakUp — Coach d'anglais et d'espagnol oral (Next.js, gratuit, 100 % local)
 
-**SpeakUp** t'oblige à **parler anglais** et te fait progresser **niveau par niveau**.
+**SpeakUp** t'oblige à **parler anglais ou espagnol** et te fait progresser **niveau par niveau**.
 Tu parles au micro, une IA qui tourne **sur ton propre PC** (carte graphique, via [Ollama](https://ollama.com)) te répond à l'oral,
 **te corrige à voix haute dès que tu fais une faute** et te fait **répéter** jusqu'à ce que ce soit juste.
 Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
@@ -29,6 +29,27 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 | 💬 **Conversation libre** | 8 situations × 3 niveaux, avec correction orale. |
 | 📒 **Carnet + flashcards** | Répétition espacée (boîtes de Leitner). |
 | 📈 **Suivi & sauvegarde** | XP, série 🔥, moyennes, points faibles. Sauvegarde auto + export/import `.json`. |
+
+---
+
+## 🇪🇸 Cours d'espagnol — programme *Aula Internacional Plus 1* (A1)
+
+Le cours d'espagnol suit **unité par unité** le programme du manuel *Aula Internacional Plus 1* (Difusión) : mêmes objectifs, même grammaire, même vocabulaire, même phonétique. Les phrases, dialogues et exercices sont **originaux** (le texte du livre n'est pas reproduit) : il est conseillé d'avoir le livre à côté, chaque unité indique sa page.
+
+| Unité | Thème | Grammaire principale |
+|---|---|---|
+| 0 · En el aula | Se présenter, la classe | llamarse, alphabet, nombres 1-10 |
+| 1 · Nosotros y nosotras | Données personnelles | ser, tener, llamarse, genre des nationalités / métiers, nombres 0-100 |
+| 2 · Quiero aprender español | Motivations, loisirs | articles, présent régulier, hacer, por / para / porque, querer |
+| 3 · ¿Dónde está Santiago? | Pays, climat | hay / estar / ser, superlatif, muy / mucho, qué / cuál / cuántos |
+| 4 · ¿Cuál prefieres? | Achats, vêtements | démonstratifs, tener que, ir, preferir, nombres > 100 |
+| 5 · Tus amigos son mis amigos | Famille, caractère, goûts | gustar, también / tampoco, possessifs, accents diacritiques |
+| 6 · Día a día | Habitudes, heure | verbes pronominaux et irréguliers (o>ue, e>ie, e>i, -go), fréquence |
+| 7 · ¡A comer! | Restaurant, cuisine | poner, traer, lo / la / los / las, de / con |
+| 8 · El barrio ideal | Quartier, itinéraire | quantificateurs (ningún, algún…), localisation, lo que más me gusta |
+| 9 · ¿Sabes conducir? | Expériences, compétences | pretérito perfecto, participes, saber / poder |
+
+Chaque unité a **6 épreuves** : 📖 **Comprendre la leçon** (toute la théorie expliquée en français + vocabulaire + phonétique + culture, puis un **quiz de 11 à 14 questions** à réussir à 80 %), puis les mêmes épreuves orales que l'anglais. L'écoute utilise **10 accents** : Espagne, Mexique, Argentine, Colombie, Chili, Pérou, Cuba, Venezuela, Uruguay, Guinée équatoriale. Pour finir un enregistrement long, dis « **He terminado** ».
 
 ---
 

@@ -4,7 +4,7 @@ import { CONFIG } from "@/lib/config";
 import { itemScore } from "@/lib/progress/rules";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
-import { STOP_HINT } from "@/lib/speech/stopPhrase";
+import { stopHint } from "@/lib/speech/stopPhrase";
 import { Icon, Typing } from "@/components/ui/Icon";
 import { ScoreRing } from "@/components/ui/ScoreRing";
 import { useListenAnswer } from "./useListenAnswer";
@@ -35,7 +35,7 @@ export function ListenQuestion({ levelId, index, n, passage, q, expected, reveal
         <p className="lq-q">{q}</p>
         <button className="btn ghost" onClick={() => speak(q)} aria-label="Écouter la question"><Icon name="play" /></button>
         <button className={`btn mic-btn ${recording ? "rec" : ""}`} disabled={s.grading} onClick={answer}>
-          <Icon name="mic" />{recording ? `J'écoute… dis « ${STOP_HINT} »` : done ? "Répondre encore" : "Répondre"}
+          <Icon name="mic" />{recording ? `J'écoute… dis « ${stopHint()} »` : done ? "Répondre encore" : "Répondre"}
         </button>
       </div>
       {s.live && <div className="live">{s.live}</div>}

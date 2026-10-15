@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { suggestAnswers } from "@/lib/ai/tasks/exercises";
 import { listen, isListening, stop, sttSupported } from "@/lib/speech/stt";
 import { stopSpeaking, whenIdle } from "@/lib/speech/tts";
-import { STOP_HINT } from "@/lib/speech/stopPhrase";
+import { stopHint } from "@/lib/speech/stopPhrase";
 import { store } from "@/lib/store/store";
 import type { DrillResult } from "@/components/drill/useDrill";
 import { usePanel } from "@/components/feedback/PanelContext";
@@ -26,7 +26,7 @@ export function useConversation(o: ConversationOptions) {
   const [busy, setBusy] = useState(false);
   const [turns, setTurns] = useState(0);
   const [live, setLive] = useState("");
-  const [hint, setHint] = useState(`Parle autant que tu veux, puis dis « ${STOP_HINT} » pour envoyer.`);
+  const [hint, setHint] = useState(`Parle autant que tu veux, puis dis « ${stopHint()} » pour envoyer.`);
   const alive = useRef(true), busyRef = useRef(false), seq = useRef(1);
   const waiters = useRef(new Map<number, (r: DrillResult) => void>());
   const scores = useRef<Promise<number | null>[]>([]);
