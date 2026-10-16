@@ -1,6 +1,7 @@
 "use client";
-/** Text input (or textarea) with buttons for Spanish characters, inserted at the cursor. */
+/** Text input (or textarea); in Spanish, buttons insert accented characters at the cursor. */
 import { useRef, type KeyboardEvent } from "react";
+import { lang } from "@/lib/course/lang";
 
 const KEYS = ["á", "é", "í", "ó", "ú", "ü", "ñ", "¿", "¡"];
 
@@ -33,7 +34,7 @@ export function TypeBox({ value, onChange, onEnter, multiline, placeholder, disa
     }
   };
   const common = {
-    ref, value, disabled, autoFocus, placeholder, spellCheck: false, autoComplete: "off", lang: "es",
+    ref, value, disabled, autoFocus, placeholder, spellCheck: false, autoComplete: "off", lang: lang().id,
     onChange: (e: { target: { value: string } }) => onChange(e.target.value),
     onKeyDown: onKey,
   };
@@ -41,11 +42,13 @@ export function TypeBox({ value, onChange, onEnter, multiline, placeholder, disa
   return (
     <div className="typebox">
       {multiline ? <textarea {...common} rows={7} /> : <input {...common} />}
-      <div className="accent-keys" aria-label="Caractères espagnols">
-        {KEYS.map((k) => (
-          <button key={k} type="button" disabled={disabled} onClick={() => insert(k)}>{k}</button>
-        ))}
-      </div>
+      {lang().id === "es" && (
+        <div className="accent-keys" aria-label="Caractères espagnols">
+          {KEYS.map((k) => (
+            <button key={k} type="button" disabled={disabled} onClick={() => insert(k)}>{k}</button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

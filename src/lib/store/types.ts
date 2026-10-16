@@ -54,6 +54,13 @@ export interface ErrorItem {
   lang?: CourseId;
 }
 
+/** 30-day intensive English programme: placement and final test scores (0-100). */
+export interface PlanState {
+  placement: number | null;
+  final: number | null;
+  started: string | null;
+}
+
 export interface AppData {
   version: 2;
   settings: Settings;
@@ -61,6 +68,7 @@ export interface AppData {
   stats: Stats;
   vocab: VocabWord[];
   errors: ErrorItem[];
+  plan: PlanState;
 }
 
 export const defaults = (): AppData => ({
@@ -69,5 +77,6 @@ export const defaults = (): AppData => ({
   levels: {},
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],
+  plan: { placement: null, final: null, started: null },
   errors: [],
 });

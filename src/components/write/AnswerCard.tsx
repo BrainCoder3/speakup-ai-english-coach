@@ -9,6 +9,7 @@ import { speak } from "@/lib/speech/tts";
 import { DiffText } from "@/components/ui/DiffText";
 import { Icon, Typing } from "@/components/ui/Icon";
 import { TypeBox } from "./TypeBox";
+import { lang } from "@/lib/course/lang";
 
 export interface Checked {
   right: boolean;
@@ -50,7 +51,7 @@ export function AnswerCard({ prompt, hint, placeholder, check, onNext }: Props) 
     <div className={`qcard answer ${res ? (res.right ? "good" : "bad") : ""}`}>
       <div className="aprompt">{prompt}</div>
       {hint && !res && <p className="muted">💡 {hint}</p>}
-      <TypeBox value={typed} onChange={setTyped} onEnter={submit} disabled={!!res || busy} placeholder={placeholder ?? "Écris ta réponse en espagnol…"} autoFocus />
+      <TypeBox value={typed} onChange={setTyped} onEnter={submit} disabled={!!res || busy} placeholder={placeholder ?? `Écris ta réponse en ${lang().fr}…`} autoFocus />
       {busy && <p className="muted"><Typing /> Vérification…</p>}
       {!res && !busy && <button className="btn primary next" onClick={submit} disabled={!typed.trim()}><Icon name="check" />Vérifier</button>}
       {res && (

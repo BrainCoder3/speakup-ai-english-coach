@@ -1,0 +1,30 @@
+/* 30-day programme: method card, tests, week grid, day tasks */
+.plan-intro ul { margin-left: 18px; display: flex; flex-direction: column; gap: 8px; line-height: 1.55; }
+.plan-intro b { color: var(--teal); }
+.progress.big { height: 12px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.progress.big i { display: block; height: 100%; background: linear-gradient(90deg, var(--teal), var(--green)); }
+.tests { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.tests > div { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.small-note { grid-column: 1 / -1; font-size: 13px; }
+.week h2 { font-family: var(--display); font-weight: 400; font-size: 22px; margin-top: 8px; }
+.days { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-top: 8px; }
+.dayc { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 12px; border-radius: 16px; border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); min-height: 112px; }
+.dayc small { color: var(--muted); font-weight: 600; line-height: 1.35; }
+.dayc .dnum { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); font-weight: 900; }
+.dayc .dmeta { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 800; color: var(--muted); }
+.dayc.done { border-color: var(--green); }
+.dayc.done .dnum { background: var(--green); color: #fff; }
+.dayc.cur { border-color: var(--teal); box-shadow: 0 0 0 3px var(--teal-soft); }
+.dayc.locked { opacity: .5; box-shadow: none; }
+.tasks { display: flex; flex-direction: column; gap: 10px; }
+.task { border: 1px solid var(--line); border-radius: 18px; background: #fff; overflow: hidden; }
+.task.done { border-color: var(--green); }
+.task-head { width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: none; border: 0; text-align: left; font: inherit; }
+.task-head b { flex: 1; font-size: 16px; }
+.task-head small { color: var(--muted); font-weight: 700; }
+.task-head .tick { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); font-weight: 900; flex: none; }
+.task.done .task-head .tick { background: var(--green); color: #fff; }
+.task.open .task-head { border-bottom: 1px solid var(--line); background: var(--paper); }
+.task-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.method { margin-left: 20px; display: flex; flex-direction: column; gap: 4px; line-height: 1.5; }
+.vword .vex { color: var(--ink); font-size: 12px; font-style: italic; opacity: .75; }

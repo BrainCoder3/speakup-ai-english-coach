@@ -5,7 +5,7 @@
 import { store } from "@/lib/store/store";
 import type { LevelProgress, StepProgress } from "@/lib/store/types";
 import { starsFor } from "@/lib/scoring/pronunciation";
-import { COURSES, allStepsOf, courseOf, extraStepsOf, levelIndex, stepsOf } from "@/data/courses";
+import { ALL_STEP_IDS, COURSES, courseOf, extraStepsOf, levelIndex, stepsOf } from "@/data/courses";
 import type { CourseId } from "@/lib/course/lang";
 import type { StepId } from "@/data/types";
 
@@ -14,7 +14,7 @@ const emptyStep = (): StepProgress => ({ scores: {}, passed: false, stars: 0 });
 /** Progress of a level (created on demand, without notifying listeners). */
 export function levelProgress(id: string): LevelProgress {
   const p = (store.get().levels[id] ??= {} as LevelProgress);
-  for (const s of allStepsOf(id)) p[s.id] ??= emptyStep(); // older saves had fewer steps
+  for (const s of ALL_STEP_IDS) p[s] ??= emptyStep(); // older saves had fewer steps
   return p;
 }
 

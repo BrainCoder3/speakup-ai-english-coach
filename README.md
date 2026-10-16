@@ -32,6 +32,24 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 
 ---
 
+## 🚀 Anglais intensif en 30 jours (B1 → vers C1)
+
+Un programme quotidien d'environ **3 h**, construit à partir de la recherche :
+
+| Ce que dit la recherche | Ce que fait le programme |
+|---|---|
+| ~200 h guidées par niveau CECRL ; C1 ≈ 700-800 h depuis zéro ([Cambridge](https://support.cambridgeenglish.org/hc/en-gb/articles/202838506-Guided-learning-hours)) | ~90 h en 30 jours : objectif réaliste = un demi à un niveau ; C1 en un mois seulement depuis un B2 solide |
+| La révision espacée bat la répétition massée ([revue](https://riset.unisma.ac.id/index.php/JREALL/article/view/25562)) | Mots du jour → carnet en répétition espacée ; erreurs → « Mes erreurs » |
+| Le shadowing améliore fluidité et prononciation ([NJLTL](https://journal.uia.no/index.php/NJLTL/article/view/1139)) | 4 phrases par jour à répéter à vitesse native (85/100 exigé) |
+| C1 ≈ 5 000-6 000 mots, liste Oxford 5000 ([Victoria Univ.](https://wgtn.ac.nz/lals/resources/paul-nations-resources/vocabulary-lists/vocabulary-cefr-and-word-family-size/vocabulary-and-the-cefr-docx)) | 360 expressions C1 (collocations, phrasal verbs, idiomes) écrites de mémoire |
+| Input quotidien + production | 45 min d'écoute réelle (BBC, TED, NPR, podcasts) + parole et écriture corrigées chaque jour |
+
+**Chaque jour, 7 tâches** : 🔁 révision espacée · 📚 grammaire (explication en français + 8 exercices tapés) · 🔤 12 expressions · 🎧 shadowing · 🗣️ parler 2-4 min avec expressions imposées (correction phrase par phrase) · 📻 écoute authentique guidée · ✍️ écriture corrigée. Les 5 tâches ★ valident la journée et débloquent la suivante.
+
+**4 semaines** : fondations (temps, « depuis », articles, pièges des francophones) → aisance B2 (futur, conditionnels, modaux, -ing/to, relatives) → structures complexes (conditionnel 3, passif, discours indirect, déduction, wish, connecteurs) → C1 (inversion, phrases clivées, phrasal verbs, collocations, nuance, propositions participiales, présentation). **Test de niveau** au début et **test final** à la fin (estimation indicative, pas une certification).
+
+---
+
 ## 🇪🇸 Cours d'espagnol — programme *Aula Internacional Plus 1* (A1)
 
 Le cours d'espagnol suit **unité par unité** le programme du manuel *Aula Internacional Plus 1* (Difusión) : mêmes objectifs, même grammaire, même vocabulaire, même phonétique. Les phrases, dialogues et exercices sont **originaux** (le texte du livre n'est pas reproduit) : il est conseillé d'avoir le livre à côté, chaque unité indique sa page.

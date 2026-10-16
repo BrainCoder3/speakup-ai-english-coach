@@ -12,7 +12,7 @@ const EN = {
   pieceError: `"and I have 25 years old" -> {"has_error":true,"corrected":"and I am 25 years old","explication":"Pour l'âge on utilise be : I am 25 years old."}`,
   pieceOk: `"then I live in Paris with my wife" -> {"has_error":false,"corrected":"then I live in Paris with my wife","explication":""}`,
   traps: "",
-  rules: "présent simple : -s avec he / she / it (he works) ; hier / moment passé terminé → prétérit (I went) ; expérience → present perfect (I have been) ; âge → be (I am 25) ; articles a / an / the ; prépositions (in, on, at) ; pluriel des noms ; ordre des mots (adjectif avant le nom).",
+  rules: "« depuis » (action qui dure jusqu'à maintenant) → present perfect + for (durée) / since (point de départ) : I have worked here for two weeks ; like / love + to ou -ing (I like to play / playing) ; présent simple : -s avec he / she / it (he works) ; hier / moment passé terminé → prétérit (I went) ; expérience → present perfect (I have been) ; âge → be (I am 25) ; articles a / an / the ; prépositions (in, on, at) ; pluriel des noms ; ordre des mots (adjectif avant le nom).",
   explain: `said "they works in a bank" / correct "they work in a bank" -> {"explication":"Avec they, le verbe au présent ne prend pas de -s : they work."}`,
   fix: `"and I have 25 years old" -> {"fixed":"and I am 25 years old"}
 "she go to work by bus every days" -> {"fixed":"she goes to work by bus every day"}

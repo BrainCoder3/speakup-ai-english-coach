@@ -9,8 +9,10 @@ import { ScoreRing } from "@/components/ui/ScoreRing";
 import { useQueue, type QItem } from "./useQueue";
 
 interface Props<T extends QItem> {
-  level: Level;
-  step: StepId;
+  level?: Level;
+  step?: StepId;
+  /** Called instead of the level validation (used by the 30-day programme). */
+  onPassed?: (score: number) => void;
   title: string;
   intro: ReactNode;
   items: T[];
@@ -18,7 +20,7 @@ interface Props<T extends QItem> {
   render: (item: T, next: (right: boolean) => void) => ReactNode;
 }
 
-export function QueueStep<T extends QItem>({ level, step, title, intro, items, pass, render }: Props<T>) {
+export function QueueStep<T extends QItem>({ level, step, onPassed, title, intro, items, pass, render }: Props<T>) {
   const q = useQueue(items);
   const [done, setDone] = useState<Celebration | null>(null);
   if (done) return <Celebrate c={done} />;
@@ -46,7 +48,7 @@ export function QueueStep<T extends QItem>({ level, step, title, intro, items, p
                 : `Série terminée, mais seulement ${q.score} % du premier coup (il faut ${pass} %). Relis la leçon et recommence.`}
             </p>
             {q.score >= pass ? (
-              <button className="btn primary next" onClick={() => setDone(completeStep(level, step, q.score))}><Icon name="arrow" />Valider l&apos;épreuve</button>
+              <button className="btn primary next" onClick={() => (onPassed ? onPassed(q.score) : level && step && setDone(completeStep(level, step, q.score)))}><Icon name="arrow" />Valider l&apos;épreuve</button>
             ) : (
               <button className="btn primary next" onClick={q.restart}><Icon name="retry" />Recommencer la série</button>
             )}

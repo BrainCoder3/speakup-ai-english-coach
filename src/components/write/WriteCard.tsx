@@ -9,6 +9,7 @@ import { Icon, Typing } from "@/components/ui/Icon";
 import { AnswerCard, spellingCheck } from "./AnswerCard";
 import { TypeBox } from "./TypeBox";
 import { useWriteTask } from "./useWriteTask";
+import { lang } from "@/lib/course/lang";
 
 export function WriteCard({ level, index, topic }: { level: Level; index: number; topic: SpeakingTopic }) {
   const { state: s, setText, submit, fixDone, startCopy, minWords } = useWriteTask(level.id, level.cefr, index, topic);
@@ -33,7 +34,7 @@ export function WriteCard({ level, index, topic }: { level: Level; index: number
             <span>{words} / {minWords} mots minimum</span>
           </div>
           {s.round > 1 && <p className="muted">Réécris ton texte <b>de mémoire</b>, plus long, en évitant tes erreurs.</p>}
-          <TypeBox value={s.text} onChange={setText} multiline placeholder="Écris ton texte en espagnol…" />
+          <TypeBox value={s.text} onChange={setText} multiline placeholder={`Écris ton texte en ${lang().fr}…`} />
           {s.error && <p className="warn">{s.error}</p>}
           <button className="btn primary next" onClick={submit} disabled={!s.text.trim()}><Icon name="check" />Faire corriger mon texte</button>
         </>

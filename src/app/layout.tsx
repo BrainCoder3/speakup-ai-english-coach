@@ -11,6 +11,7 @@ import "@/styles/panel.css";
 import "@/styles/practice.css";
 import "@/styles/learn.css";
 import "@/styles/write.css";
+import "@/styles/plan.css";
 import "@/styles/misc.css";
 
 const body = Nunito({ variable: "--font-body", subsets: ["latin"], weight: ["500", "600", "700", "800", "900"] });

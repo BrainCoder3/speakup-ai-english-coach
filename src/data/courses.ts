@@ -27,6 +27,9 @@ const STEP: Record<StepId, StepDef> = {
   mission: { id: "mission", label: "Mission", icon: "🎯" },
 };
 
+/** Every kind of step (pseudo-levels such as the 30-day programme days use several of them). */
+export const ALL_STEP_IDS = Object.keys(STEP) as StepId[];
+
 export interface Course {
   id: CourseId;
   title: string;
