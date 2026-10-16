@@ -25,7 +25,8 @@ export function onListeningChange(fn: (on: boolean) => void) {
 export function listen(onInterim?: (text: string) => void, opts: { long?: boolean } = {}): Promise<Heard> {
   const SR = Ctor();
   if (!SR) return Promise.reject(new Error("unsupported"));
-  stop(), stopSpeaking();
+  stop();
+  stopSpeaking();
   const long = !!opts.long;
   const { silenceMs, longSilenceMs, maxMs, longMaxMs } = CONFIG.speech;
   return new Promise((resolve, reject) => {

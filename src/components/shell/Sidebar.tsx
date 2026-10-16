@@ -11,6 +11,7 @@ import { TranslateButton } from "./TranslateDialog";
 const NAV = [
   { href: "/", label: "🗺️ Parcours", match: (p: string) => p === "/" || p.startsWith("/lesson") },
   { href: "/plan", label: "🚀 Anglais en 30 jours", match: (p: string) => p.startsWith("/plan") },
+  { href: "/train", label: "🧠 Entraînement ciblé", match: (p: string) => p.startsWith("/train") },
   { href: "/free", label: "💬 Conversation libre", match: (p: string) => p.startsWith("/free") },
   { href: "/errors", label: "🔁 Mes erreurs", match: (p: string) => p.startsWith("/errors") },
   { href: "/notebook", label: "📒 Mon carnet", match: (p: string) => p.startsWith("/notebook") },

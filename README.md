@@ -32,6 +32,22 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 
 ---
 
+## 🧠 Entraînement ciblé (anglais et espagnol)
+
+Ce qui fait progresser vite dans **tous les domaines**, appliqué aux langues :
+
+| Les meilleurs… | font comme ça | Ici |
+|---|---|---|
+| 🎻 Musicien | répète la mesure qu'il rate (pratique délibérée, [Ericsson](https://www.jimdavies.org/summaries/ericsson1993.html)) | la séance cible d'abord tes questions ratées |
+| 🩺 Étudiant en médecine | révise juste avant d'oublier | chaque question a sa propre révision espacée (1, 3, 7, 15, 30, 60 jours) |
+| ♟️ Joueur d'échecs | résout des problèmes mélangés ([interleaving](https://retrievalpractice.org/archive/2017/interleaving)) | grammaire, vocabulaire et erreurs de semaines différentes mélangés |
+| 🏃 Athlète | séries courtes, coach immédiat ([effet test](https://www.frontiersin.org/articles/10.3389/fpsyg.2014.00286/full)) | 20 questions tapées de mémoire, correction immédiate |
+| ✈️ Pilote | répète la manœuvre de plus en plus vite | **fluidité 4/3/2** ([Nation](https://americanenglish.state.gov/files/ae/resource_files/63_3_p02-08.pdf)) : même histoire en 4, 3, 2 min, débit mesuré |
+
+La page affiche aussi **tes points faibles** (taux d'erreur par thème) avec un lien vers la leçon à retravailler.
+
+---
+
 ## 🚀 Anglais intensif en 30 jours (B1 → vers C1)
 
 Un programme quotidien d'environ **3 h**, construit à partir de la recherche :

@@ -2,6 +2,9 @@
 import type { StepId } from "@/data/types";
 import type { FreeLevel } from "@/data/scenarios";
 import type { CourseId } from "@/lib/course/lang";
+import type { FluencyRun, PlanState, TrainCard } from "./extraTypes";
+
+export type { FluencyRun, PlanState, TrainCard };
 
 export interface Settings {
   /** Language being learnt. */
@@ -54,13 +57,6 @@ export interface ErrorItem {
   lang?: CourseId;
 }
 
-/** 30-day intensive English programme: placement and final test scores (0-100). */
-export interface PlanState {
-  placement: number | null;
-  final: number | null;
-  started: string | null;
-}
-
 export interface AppData {
   version: 2;
   settings: Settings;
@@ -69,6 +65,8 @@ export interface AppData {
   vocab: VocabWord[];
   errors: ErrorItem[];
   plan: PlanState;
+  train: Record<string, TrainCard>;
+  fluency: FluencyRun[];
 }
 
 export const defaults = (): AppData => ({
@@ -78,5 +76,7 @@ export const defaults = (): AppData => ({
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],
   plan: { placement: null, final: null, started: null },
+  train: {},
+  fluency: [],
   errors: [],
 });
