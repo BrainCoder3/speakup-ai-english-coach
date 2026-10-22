@@ -8,6 +8,9 @@ echo      SpeakUp - ton coach d'anglais (gratuit)
 echo   ==========================================
 echo.
 
+rem Outils installes recemment : on les ajoute au PATH au cas ou Windows ne les connait pas encore
+set "PATH=%PATH%;%ProgramFiles%\nodejs;%LOCALAPPDATA%\Programs\Ollama"
+
 rem 1) Ollama (l'IA locale) doit tourner
 curl -s http://127.0.0.1:11434/api/version >nul 2>&1
 if errorlevel 1 (
