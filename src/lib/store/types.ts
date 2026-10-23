@@ -14,6 +14,8 @@ export interface Settings {
   handsfree: boolean;
   showText: boolean;
   allowTyping: boolean;
+  /** No microphone: written steps replace the spoken ones. */
+  silent: boolean;
   freeLevel: FreeLevel;
   freeScenario: string;
 }
@@ -67,16 +69,19 @@ export interface AppData {
   plan: PlanState;
   train: Record<string, TrainCard>;
   fluency: FluencyRun[];
+  /** Ids of the expression themes the learner has studied (they join the spaced-repetition pool). */
+  expr: string[];
 }
 
 export const defaults = (): AppData => ({
   version: 2,
-  settings: { course: "en", voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, freeLevel: "intermediate", freeScenario: "free" },
+  settings: { course: "en", voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, silent: false, freeLevel: "intermediate", freeScenario: "free" },
   levels: {},
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],
   plan: { placement: null, final: null, started: null },
   train: {},
   fluency: [],
+  expr: [],
   errors: [],
 });

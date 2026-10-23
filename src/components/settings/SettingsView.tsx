@@ -7,8 +7,9 @@ import { useStore } from "@/lib/store/useStore";
 import { BackupSettings } from "./BackupSettings";
 import { VoiceSettings } from "./VoiceSettings";
 
-type Flag = "handsfree" | "showText" | "allowTyping";
+type Flag = "silent" | "handsfree" | "showText" | "allowTyping";
 const FLAGS: [Flag, string][] = [
+  ["silent", "🤫 Mode silencieux (sans micro) : l'anglais se valide à l'écrit, avec les mêmes corrections"],
   ["handsfree", "Mode mains libres : le micro se relance tout seul après le coach"],
   ["showText", "Afficher le texte du coach (décoche pour entraîner l'écoute)"],
   ["allowTyping", "Autoriser le clavier en conversation (déconseillé : parle !)"],

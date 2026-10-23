@@ -46,7 +46,7 @@ export function TextCard({ levelId, text, firstIndex, passed }: Props) {
       {player.missingAccents.length > 0 && (
         <p className="warn">Ce navigateur n&apos;a pas la voix {player.missingAccents.map((a) => ACCENTS[a].label).join(", ")} : ouvre SpeakUp dans Microsoft Edge pour entendre le vrai accent.</p>
       )}
-      <p className="muted">Écoute sans lire, puis réponds à l&apos;oral avec une phrase complète. Écoutes : {player.plays}</p>
+      <p className="muted">Écoute sans lire, puis réponds avec une phrase complète. Écoutes : {player.plays}</p>
       <div className={`transcript ${showText ? "" : "hidden"}`}>
         {text.parts.map((p, k) => (
           <p key={k} className={player.line === k ? "now" : ""}>

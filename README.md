@@ -32,6 +32,23 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 
 ---
 
+## 📚 Expressions utiles (écrit, sans micro)
+
+112 expressions d'anglais courant en 14 thèmes (conversation, avis, politesse, connecteurs, travail, émotions,
+argent, idiomes, verbes à particule, voyage, emails, conseils). Pour chaque thème :
+
+1. **Lire et écouter** : sens en français, exemple avec l'expression surlignée, quand l'employer.
+2. **Retaper de mémoire** : phrase à trou ; une erreur montre la correction, la règle, et il faut recopier la bonne version.
+3. **Les utiliser** : un petit texte à écrire avec au moins 3 expressions ; le coach (Ollama) corrige chaque phrase.
+
+Les thèmes étudiés rejoignent l'**entraînement ciblé** : les expressions ratées reviennent plus tôt (répétition espacée).
+
+## 🤫 Mode silencieux (sans micro)
+
+Réglages → « Mode silencieux ». Le parcours anglais se valide alors à l'écrit, avec les mêmes corrections :
+compréhension orale (réponses tapées) → conversation au clavier → rédaction → mission. Les épreuves orales
+(écoute & répète, parle longtemps) restent disponibles en option.
+
 ## 🧠 Entraînement ciblé (anglais et espagnol)
 
 Ce qui fait progresser vite dans **tous les domaines**, appliqué aux langues :

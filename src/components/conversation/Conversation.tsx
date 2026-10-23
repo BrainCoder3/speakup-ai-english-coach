@@ -9,7 +9,8 @@ import { useConversation, type ConversationOptions } from "./useConversation";
 export function Conversation(props: ConversationOptions) {
   const c = useConversation(props);
   const list = useRef<HTMLDivElement>(null);
-  const { showText, allowTyping } = store.settings();
+  const { showText, silent } = store.settings();
+  const allowTyping = store.settings().allowTyping || silent;
 
   useEffect(() => {
     list.current?.scrollTo({ top: list.current.scrollHeight, behavior: "smooth" });

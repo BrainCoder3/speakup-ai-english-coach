@@ -1,5 +1,5 @@
 "use client";
-/** Records a spoken answer to a comprehension question and grades it. */
+/** Records a spoken (or, in silent mode, typed) answer to a comprehension question and grades it. */
 import { useCallback, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { gradeListening, type ListenGrade } from "@/lib/ai/tasks/listening";
@@ -29,16 +29,7 @@ interface Args {
 export function useListenAnswer(a: Args) {
   const [s, setS] = useState<ListenAnswerState>({ live: "", said: "", grading: false, grade: null, tries: 0, error: "" });
 
-  const answer = useCallback(async () => {
-    if (isListening()) return stop();
-    if (!sttSupported()) return setS((x) => ({ ...x, error: "Utilise Edge ou Chrome pour la reconnaissance vocale." }));
-    let text = "";
-    try {
-      text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
-    } catch (e) {
-      return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
-    }
-    if (!text) return setS((x) => ({ ...x, live: "" }));
+  const grade = useCallback(async (text: string) => {
     trackSpeech(text);
     setS((x) => ({ ...x, live: "", said: text, grading: true, grade: null, error: "" }));
     try {
@@ -52,5 +43,21 @@ export function useListenAnswer(a: Args) {
     }
   }, [a.levelId, a.index, a.passage, a.question, a.expected]);
 
-  return { state: s, answer };
+  const answer = useCallback(async () => {
+    if (isListening()) return stop();
+    if (!sttSupported()) return setS((x) => ({ ...x, error: "Utilise Edge ou Chrome pour la reconnaissance vocale." }));
+    let text = "";
+    try {
+      text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
+    } catch (e) {
+      return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
+    }
+    if (!text) return setS((x) => ({ ...x, live: "" }));
+    grade(text);
+  }, [grade]);
+
+  /** Silent mode: the same grading, from typed text. */
+  const submit = useCallback((text: string) => text.trim() && grade(text.trim()), [grade]);
+
+  return { state: s, answer, submit };
 }

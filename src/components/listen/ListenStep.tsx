@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { itemScore, stepAverage } from "@/lib/progress/rules";
 import { stopHint } from "@/lib/speech/stopPhrase";
+import { store } from "@/lib/store/store";
 import { LISTENING, questionCount, questionIndex } from "@/data/listening";
 import type { Level } from "@/data/types";
 import { Celebrate, Dots } from "@/components/lesson/Celebrate";
@@ -19,6 +20,7 @@ export function ListenStep({ level }: { level: Level }) {
   const qOk = (i: number) => itemScore(level.id, "listen", i) >= PASS;
   const textOk = (k: number) => texts[k].questions.every((_, q) => qOk(questionIndex(texts, k, q)));
   const firstTodo = () => Math.max(0, texts.findIndex((_, k) => !textOk(k)));
+  const silent = store.settings().silent;
   const [k, setK] = useState(firstTodo);
   const [done, setDone] = useState<Celebration | null>(null);
 
@@ -37,8 +39,8 @@ export function ListenStep({ level }: { level: Level }) {
         <div>
           <h2>👂 Compréhension orale</h2>
           <p>
-            Écoute de vrais dialogues (accents du monde entier), puis réponds à l&apos;oral. Il faut <b>{PASS}/100</b> à chaque
-            question. Quand tu as fini ta réponse, dis <b>« {stopHint()} »</b>.
+            Écoute de vrais dialogues (accents du monde entier), puis {silent ? "réponds par écrit" : "réponds à l&apos;oral"}. Il faut <b>{PASS}/100</b> à chaque
+            question.{silent ? "" : <> Quand tu as fini ta réponse, dis <b>« {stopHint()} »</b>.</>}
           </p>
         </div>
       </div>

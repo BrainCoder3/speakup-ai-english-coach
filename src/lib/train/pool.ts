@@ -7,12 +7,13 @@ import { allErrors } from "@/lib/errors/bank";
 import { dayUnlocked } from "@/lib/plan/progress";
 import { isLevelUnlocked } from "@/lib/progress/rules";
 import { vocabItems } from "@/lib/scoring/vocabItems";
+import { exprItems } from "@/lib/expressions/items";
 import { DAYS } from "@/data/plan";
 import { ES_LEARN, ES_LEVELS, ES_PRACTICE } from "@/data/es";
 
 export interface TrainItem {
   key: string;
-  kind: "grammaire" | "vocabulaire" | "mes erreurs";
+  kind: "grammaire" | "vocabulaire" | "expressions" | "mes erreurs";
   /** Topic used for interleaving and weak-point stats. */
   topic: string;
   /** Where to study it again. */
@@ -62,4 +63,7 @@ function mistakes(): TrainItem[] {
 }
 
 /** Every item available today for the active language. */
-export const trainPool = (): TrainItem[] => [...(activeCourse() === "es" ? spanish() : english()), ...mistakes()];
+export const trainPool = (): TrainItem[] => [
+  ...(activeCourse() === "es" ? spanish() : [...english(), ...exprItems()]),
+  ...mistakes(),
+];

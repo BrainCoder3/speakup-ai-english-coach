@@ -1,0 +1,19 @@
+/* Useful expressions: theme grid, expression cards, "use them" box */
+.themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; }
+.theme { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 2px solid var(--line); border-radius: 18px; background: var(--paper); text-decoration: none; color: inherit; transition: transform .15s, border-color .15s; }
+.theme:hover { transform: translateY(-2px); border-color: var(--teal); }
+.theme.seen { border-color: var(--green); background: var(--green-soft); }
+.theme .ticon { font-size: 28px; }
+.theme small { color: var(--muted); font-weight: 700; }
+.xlist { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 12px; margin: 12px 0; }
+.xcard { border: 1px solid var(--line); border-radius: 16px; padding: 14px; background: var(--paper); display: flex; flex-direction: column; gap: 6px; }
+.xhead { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.xen { font-size: 18px; }
+.xfr { color: var(--muted); font-weight: 700; flex: 1; min-width: 120px; }
+.xex { line-height: 1.5; }
+.xex mark { background: var(--teal-soft); color: inherit; font-weight: 800; border-radius: 6px; padding: 0 3px; }
+.xuse { font-size: 14px; }
+.useit { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+.chips-used { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips-used li { padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); font-weight: 700; font-size: 14px; }
+.chips-used li.on { background: var(--green-soft); border-color: var(--green); }

@@ -10,8 +10,9 @@ import { ScoreRing } from "@/components/ui/ScoreRing";
 
 const blanks = (a: string) => a.replace(/\s*\/\s*/g, " ");
 
-export function Session({ onExit }: { onExit: () => void }) {
-  const [items] = useState<TrainItem[]>(() => buildSession(trainPool()));
+/** `pool` restricts the session to some items (e.g. one expression theme); default = everything seen so far. */
+export function Session({ onExit, pool }: { onExit: () => void; pool?: TrainItem[] }) {
+  const [items] = useState<TrainItem[]>(() => buildSession(pool ?? trainPool()));
   const [i, setI] = useState(0);
   const [right, setRight] = useState(0);
   const [missed, setMissed] = useState<TrainItem[]>([]);
