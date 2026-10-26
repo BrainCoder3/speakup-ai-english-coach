@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { itemScore, stepAverage } from "@/lib/progress/rules";
-import { stopHint } from "@/lib/speech/stopPhrase";
 import { SPEAKING } from "@/data/speaking";
 import type { Level } from "@/data/types";
 import { Celebrate, Dots } from "@/components/lesson/Celebrate";
@@ -34,9 +33,9 @@ export function SpeakStep({ level }: { level: Level }) {
         <div>
           <h2>🗣️ Parle longtemps</h2>
           <p>
-            Parle longtemps en plaçant les <b>expressions imposées</b>, puis dis <b>« {stopHint()} »</b>. Le prof analyse tout
-            ton discours et corrige chaque phrase ; tu répètes les bonnes versions, puis <b>tu reparles du sujet, plus
-            longtemps</b>. Validation à partir du 2ᵉ essai avec <b>{PASS}/100</b>, et seulement quand toutes tes erreurs sont corrigées.
+            Parle environ <b>une minute</b> en plaçant <b>3 expressions</b> de la liste. Quand tu as fini, <b>appuie de
+            nouveau sur le bouton</b>. Le prof corrige chaque phrase ; tu répètes les bonnes versions (3 essais maximum
+            chacune), et le sujet est validé avec <b>{PASS}/100</b>. Pas de panique si tu bloques : tu peux toujours continuer.
           </p>
         </div>
       </div>

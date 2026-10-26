@@ -8,6 +8,7 @@ import { store } from "@/lib/store/store";
 import { DAYS } from "@/data/plan";
 import { SPEAKING } from "@/data/speaking";
 import { Icon } from "@/components/ui/Icon";
+import { MicMeter } from "@/components/ui/MicMeter";
 import { ROUNDS, useFluency } from "./useFluency";
 
 /** Topics: today's programme prompt (English) or the current unit's topics (Spanish). */
@@ -52,6 +53,7 @@ function FluencyRounds({ topic, onRestart }: { topic: string; onRestart: () => v
         ))}
       </div>
       {f.live && <div className="live">{f.live}</div>}
+      <MicMeter />
       {f.error && <p className="warn">{f.error}</p>}
       {!f.done && (f.left === null
         ? <button className="btn mic-btn big" onClick={f.start}><Icon name="mic" />Tour {f.round + 1} : parler {ROUNDS[f.round] / 60} min</button>

@@ -1,6 +1,7 @@
 "use client";
 /** Expressions to use in the speech, ticked live as soon as they are said. */
 import { usedExpressions } from "@/lib/scoring/expressions";
+import { needExpr } from "./useSpeakTask";
 import { speak } from "@/lib/speech/tts";
 import type { SpeakingTopic } from "@/data/types";
 import { Icon } from "@/components/ui/Icon";
@@ -8,12 +9,12 @@ import { Icon } from "@/components/ui/Icon";
 export function ExpressionList({ topic, said }: { topic: SpeakingTopic; said: string }) {
   const used = usedExpressions(said, topic.expressions);
   const n = used.filter(Boolean).length;
-  const ok = n >= topic.mustUse;
+  const ok = n >= needExpr(topic);
   return (
     <section className="exprs">
       <div className="exprs-head">
         <h4>📌 Expressions à placer dans ton discours</h4>
-        <span className={`exprs-count ${ok ? "ok" : ""}`}>{n} / {topic.mustUse} utilisées</span>
+        <span className={`exprs-count ${ok ? "ok" : ""}`}>{n} / {needExpr(topic)} utilisées</span>
       </div>
       <ul>
         {topic.expressions.map((e, k) => (
@@ -27,7 +28,7 @@ export function ExpressionList({ topic, said }: { topic: SpeakingTopic; said: st
           </li>
         ))}
       </ul>
-      <p className="muted">« … » = tes propres mots. Il faut en utiliser au moins <b>{topic.mustUse}</b> pour que le prof accepte ton discours.</p>
+      <p className="muted">« … » = tes propres mots. Il faut en utiliser au moins <b>{needExpr(topic)}</b> pour que le prof accepte ton discours.</p>
     </section>
   );
 }

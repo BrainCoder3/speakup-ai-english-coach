@@ -1,11 +1,16 @@
 /** Browser-side client for /api/chat (streaming text or structured JSON). */
+import { store } from "@/lib/store/store";
+
 export type Msg = { role: "system" | "user" | "assistant"; content: string };
 
 /** Removes reasoning tags and markdown symbols the voice would read aloud. */
 export const cleanText = (s: string) => String(s || "").replace(/<think>[\s\S]*?<\/think>/g, "").replace(/[*_#`]/g, "").trim();
 
+/** Where the AI lives: this site's own /api, or the server whose address is set in the settings (phone). */
+export const aiBase = () => store.settings().aiUrl.trim().replace(/\/+$/, "");
+
 async function post(body: object): Promise<Response> {
-  const res = await fetch("/api/chat", { method: "POST", body: JSON.stringify(body) });
+  const res = await fetch(`${aiBase()}/api/chat`, { method: "POST", body: JSON.stringify(body) });
   if (!res.ok) throw new Error(await res.text());
   return res;
 }

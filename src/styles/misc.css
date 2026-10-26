@@ -39,3 +39,25 @@ dialog::backdrop { background: rgba(29, 42, 42, .35); }
   .kpis { grid-template-columns: repeat(2, 1fr); }
   .msg { max-width: 92%; }
 }
+
+/* Microphone level */
+.micmeter { display: flex; align-items: center; gap: 10px; margin: 4px 0 8px; font-weight: 700; }
+.micmeter .bar { position: relative; width: 140px; height: 10px; border-radius: 999px; background: var(--bg); overflow: hidden; flex: none; }
+.micmeter .bar i { position: absolute; inset: 0; transform-origin: left; background: var(--green); transition: transform .08s linear; }
+.micmeter small { color: var(--muted); }
+.micmeter small.warn { color: var(--red); }
+
+/* Phones: one scrolling row of menu entries, safe areas, no zoom on inputs */
+@media (max-width: 760px) {
+  .nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; padding-bottom: 4px; scrollbar-width: none; }
+  .nav a { white-space: nowrap; padding: 9px 12px; }
+  .logo small { display: none; }
+  .side { padding-top: max(12px, env(safe-area-inset-top)); }
+  .page { padding-bottom: max(30px, env(safe-area-inset-bottom)); }
+  input, textarea, select { font-size: 16px; }
+  .xlist { grid-template-columns: 1fr; }
+  .page-head h1 { font-size: 26px; }
+}
+.steps-help { margin: 0 0 8px 20px; display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+.field { display: flex; flex-direction: column; gap: 6px; font-weight: 800; }
+.field input { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 600; }

@@ -2,8 +2,8 @@
 /**
  * Long speaking task, in rounds:
  * talk (min words + required expressions, end with "I'm done recording") → AI review
- * → repeat every corrected sentence → talk again, longer. From round 2 a score ≥ pass
- * validates the topic, but only once every remaining mistake has been repeated correctly.
+ * → repeat every corrected sentence (3 tries each, then on to the next) → talk again, a bit longer.
+ * A score ≥ pass validates the topic, once the mistakes have been repeated.
  */
 import { useCallback, useState } from "react";
 import { CONFIG } from "@/lib/config";
@@ -13,6 +13,7 @@ import { trackScore, trackSpeech } from "@/lib/progress/stats";
 import { saveErrors } from "@/lib/errors/bank";
 import { usedExpressions } from "@/lib/scoring/expressions";
 import { isListening, listen, stop, sttSupported } from "@/lib/speech/stt";
+import { micMessage } from "@/lib/speech/micErrors";
 import { speak } from "@/lib/speech/tts";
 import type { SpeakingTopic } from "@/data/types";
 import { mistakesLine, say } from "@/lib/course/phrases";
@@ -35,22 +36,23 @@ export interface SpeakState {
 
 const START: SpeakState = { round: 1, phase: "ready", transcript: "", live: "", review: null, passAfterFixes: false, fixIndex: 0, progress: [0, 1], error: "" };
 
-/** Round 2+ asks for 25 % more words. */
-export const minWordsFor = (t: SpeakingTopic, round: number) => Math.round(t.minWords * (round > 1 ? 1.25 : 1));
+/** Kept easy to unlock: at most 50 words (20 % more on round 2+) and 3 imposed expressions. */
+export const minWordsFor = (t: SpeakingTopic, round: number) => Math.round(Math.min(t.minWords, 50) * (round > 1 ? 1.2 : 1));
+export const needExpr = (t: SpeakingTopic) => Math.min(t.mustUse, 3);
 export const expressionsUsed = (t: SpeakingTopic, text: string) => usedExpressions(text, t.expressions).filter(Boolean).length;
 
 export function useSpeakTask(levelId: string, cefr: string, index: number, topic: SpeakingTopic) {
   const [s, setS] = useState<SpeakState>(START);
   const pass = CONFIG.pass.speak;
 
-  const analyse = useCallback(async (said: string, round: number) => {
+  const analyse = useCallback(async (said: string) => {
     setS((x) => ({ ...x, phase: "reviewing" }));
     try {
       const r = await reviewSpeech({ topic: topic.prompt, said, cefr, expressions: topic.expressions.map((e) => e.en) },
         (done, total) => setS((x) => ({ ...x, progress: [done, total] })));
       trackScore("grammar", r.score);
       saveErrors(r.fixes);
-      const good = round > 1 && r.score >= pass;
+      const good = r.score >= pass;
       if (good && !r.fixes.length) recordItem(levelId, "speak", index, r.score);
       setS((x) => ({ ...x, review: r, passAfterFixes: good, phase: good && !r.fixes.length ? "passed" : "review", fixIndex: 0 }));
       if (good) speak(say(r.fixes.length ? "lastFixes" : "improved"));
@@ -67,13 +69,13 @@ export function useSpeakTask(levelId: string, cefr: string, index: number, topic
     try {
       text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
     } catch (e) {
-      return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
+      return setS((x) => ({ ...x, live: "", error: micMessage(e) }));
     }
     if (text) trackSpeech(text);
     const all = `${s.transcript} ${text}`.trim();
-    const enough = countWords(all) >= minWordsFor(topic, s.round) && expressionsUsed(topic, all) >= topic.mustUse;
+    const enough = countWords(all) >= minWordsFor(topic, s.round) && expressionsUsed(topic, all) >= needExpr(topic);
     setS((x) => ({ ...x, live: "", transcript: all, error: "", phase: enough ? "reviewing" : "short" }));
-    if (enough) analyse(all, s.round);
+    if (enough) analyse(all);
     else speak(say("keepGoing"));
   }, [s.transcript, s.round, topic, analyse]);
 

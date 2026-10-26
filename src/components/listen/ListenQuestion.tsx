@@ -6,9 +6,9 @@ import { store } from "@/lib/store/store";
 import { itemScore } from "@/lib/progress/rules";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
-import { stopHint } from "@/lib/speech/stopPhrase";
 import { TypeBox } from "@/components/write/TypeBox";
 import { Icon, Typing } from "@/components/ui/Icon";
+import { MicMeter } from "@/components/ui/MicMeter";
 import { ScoreRing } from "@/components/ui/ScoreRing";
 import { useListenAnswer } from "./useListenAnswer";
 
@@ -45,7 +45,7 @@ export function ListenQuestion({ levelId, index, n, passage, q, expected, reveal
         <button className="btn ghost" onClick={() => speak(q)} aria-label="Écouter la question"><Icon name="play" /></button>
         {!silent && (
           <button className={`btn mic-btn ${recording ? "rec" : ""}`} disabled={s.grading} onClick={answer}>
-            <Icon name="mic" />{recording ? `J'écoute… dis « ${stopHint()} »` : done ? "Répondre encore" : "Répondre"}
+            <Icon name="mic" />{recording ? "J'écoute… appuie ici quand tu as fini" : done ? "Répondre encore" : "Répondre"}
           </button>
         )}
       </div>
@@ -56,6 +56,7 @@ export function ListenQuestion({ levelId, index, n, passage, q, expected, reveal
         </div>
       )}
       {s.live && <div className="live">{s.live}</div>}
+      <MicMeter />
       {s.error && <p className="warn">{s.error}</p>}
       {s.grading && <p className="muted"><Typing /> Vérification…</p>}
       {g && !s.grading && (

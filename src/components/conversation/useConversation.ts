@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { suggestAnswers } from "@/lib/ai/tasks/exercises";
 import { listen, isListening, stop, sttSupported } from "@/lib/speech/stt";
+import { micMessage } from "@/lib/speech/micErrors";
 import { stopSpeaking, whenIdle } from "@/lib/speech/tts";
 import { stopHint } from "@/lib/speech/stopPhrase";
 import { store } from "@/lib/store/store";
@@ -69,7 +70,7 @@ export function useConversation(o: ConversationOptions) {
       setLive("");
       if (r.text) learnerTurn(r.text);
     } catch (e) {
-      setHint((e as Error).message === "mic-denied" ? "Autorise le micro (icône à gauche de l'adresse), puis réessaie." : "Micro indisponible.");
+      setHint(micMessage(e));
     }
   }, [learnerTurn]);
   useEffect(() => { listenRef.current = listenTurn; }, [listenTurn]);

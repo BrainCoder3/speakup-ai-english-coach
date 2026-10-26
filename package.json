@@ -9,7 +9,8 @@
     "lint": "eslint",
     "check:lines": "node scripts/check-lines.mjs 100",
     "typecheck": "tsc --noEmit",
-    "check": "npm run typecheck && npm run lint && npm run check:lines"
+    "check": "npm run typecheck && npm run lint && npm run check:lines",
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "dependencies": {
     "next": "16.4.2",

@@ -2,6 +2,7 @@
 /** Logic of one "listen & repeat" exercise: listen, score, repeat until passed. */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { listen, isListening, stop, sttSupported } from "@/lib/speech/stt";
+import { micMessage } from "@/lib/speech/micErrors";
 import { speak } from "@/lib/speech/tts";
 import { pronunciationScore, type Token } from "@/lib/scoring/pronunciation";
 import { trackScore } from "@/lib/progress/stats";
@@ -40,10 +41,9 @@ export function useDrill(target: string, pass: number, maxTries: number, autopla
     if (!sttSupported()) return setS((x) => ({ ...x, error: "Reconnaissance vocale indisponible : utilise Edge ou Chrome." }));
     let heard;
     try {
-      heard = await listen((live) => setS((x) => ({ ...x, live })));
+      heard = await listen((live) => setS((x) => ({ ...x, live })), { expected: target });
     } catch (e) {
-      const msg = (e as Error).message === "mic-denied" ? "Autorise le micro (icône à gauche de l'adresse)." : "Micro indisponible.";
-      return setS((x) => ({ ...x, error: msg, live: "" }));
+      return setS((x) => ({ ...x, error: micMessage(e), live: "" }));
     }
     if (!heard.text) return setS((x) => ({ ...x, live: "", error: "Je n'ai rien entendu. Parle fort et clair, puis fais une pause." }));
     const r = pronunciationScore(target, heard.text, heard.confidence);

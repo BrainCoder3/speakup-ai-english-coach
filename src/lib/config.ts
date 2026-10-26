@@ -17,14 +17,17 @@ export const CONFIG = {
     repeat: 85, // each "listen & repeat" sentence
     listen: 70, // each listening-comprehension question
     answer: 70, // each spoken answer (any grammar fix = fail)
-    speak: 75, // long speaking task, after correcting your mistakes
+    speak: 65, // long speaking task, after correcting your mistakes
     mission: 75, // average over the role-play mission
     drill: 80, // repeating a corrected sentence in a conversation
   },
   drillMaxTries: 3,
   answerFallbackAfter: 2,
 
-  /** Short answers end on a pause; long ones end when you say "I'm done recording". */
-  speech: { silenceMs: 1800, maxMs: 25000, longSilenceMs: 20000, longMaxMs: 240000 },
+  /**
+   * Short answers end on a pause (800 ms after a finished sentence); long ones end when you press the
+   * mic again, say "I'm done recording", or stay silent for 12 s after speaking.
+   */
+  speech: { silenceMs: 1500, finalPauseMs: 800, noSpeechMs: 9000, maxMs: 25000, longStartMs: 30000, longSilenceMs: 12000, longMaxMs: 240000 },
   storageKey: "speakup:v2",
 } as const;

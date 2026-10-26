@@ -5,7 +5,8 @@ interface SpeechRecognitionAlternativeLike {
 }
 interface SpeechRecognitionResultLike {
   isFinal: boolean;
-  0: SpeechRecognitionAlternativeLike;
+  length: number;
+  [i: number]: SpeechRecognitionAlternativeLike;
 }
 interface SpeechRecognitionEventLike {
   resultIndex: number;

@@ -5,6 +5,7 @@ import { CONFIG } from "@/lib/config";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
 import { Icon } from "@/components/ui/Icon";
+import { MicMeter } from "@/components/ui/MicMeter";
 import { ScoreRing } from "@/components/ui/ScoreRing";
 import { useDrill, drillMessage, type DrillResult } from "./useDrill";
 
@@ -44,10 +45,11 @@ export function Drill({ target, fr, pass = CONFIG.pass.drill, maxTries = Infinit
         {masked && <button className="btn" onClick={() => setRevealed(true)}><Icon name="eye" />Voir le texte</button>}
         <button className={`btn mic-btn ${recording ? "rec" : ""}`} disabled={s.finished} onClick={attempt}>
           <Icon name="mic" />
-          {recording ? "J'écoute… (pause = fin)" : "Répéter"}
+          {recording ? "J'écoute… (fais une pause à la fin)" : "Répéter"}
         </button>
       </div>
       <div className="drill-live">{s.live}</div>
+      <MicMeter />
       {s.error && <p className="warn">{s.error}</p>}
       {s.score !== null && (
         <div className="drill-result" aria-live="polite">

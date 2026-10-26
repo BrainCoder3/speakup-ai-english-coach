@@ -6,6 +6,7 @@ import { gradeListening, type ListenGrade } from "@/lib/ai/tasks/listening";
 import { recordItem } from "@/lib/progress/rules";
 import { trackScore, trackSpeech } from "@/lib/progress/stats";
 import { isListening, listen, stop, sttSupported } from "@/lib/speech/stt";
+import { micMessage } from "@/lib/speech/micErrors";
 import { speak } from "@/lib/speech/tts";
 import { say } from "@/lib/course/phrases";
 
@@ -50,7 +51,7 @@ export function useListenAnswer(a: Args) {
     try {
       text = (await listen((live) => setS((x) => ({ ...x, live })), { long: true })).text;
     } catch (e) {
-      return setS((x) => ({ ...x, live: "", error: (e as Error).message === "mic-denied" ? "Autorise le micro." : "Micro indisponible." }));
+      return setS((x) => ({ ...x, live: "", error: micMessage(e) }));
     }
     if (!text) return setS((x) => ({ ...x, live: "" }));
     grade(text);

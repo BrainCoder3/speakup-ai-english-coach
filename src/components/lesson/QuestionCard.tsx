@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { speak } from "@/lib/speech/tts";
 import { useListening } from "@/lib/speech/useListening";
-import { stopHint } from "@/lib/speech/stopPhrase";
 import type { Level, Question } from "@/data/types";
 import { Drill } from "@/components/drill/Drill";
 import { DiffText } from "@/components/ui/DiffText";
 import { Icon, Typing } from "@/components/ui/Icon";
+import { MicMeter } from "@/components/ui/MicMeter";
 import { ScoreRing } from "@/components/ui/ScoreRing";
 import { useAnswer } from "./useAnswer";
 
@@ -44,12 +44,13 @@ export function QuestionCard({ level, index, item, onPassed }: Props) {
         <button className="btn" onClick={() => setHint(true)}><Icon name="bulb" />Indice</button>
         <button className="btn" onClick={() => { setExample(true); speak(item.example); }}><Icon name="help" />Exemple de réponse</button>
         <button className={`btn mic-btn big ${recording ? "rec" : ""}`} disabled={s.grading} onClick={answer}>
-          <Icon name="mic" />{recording ? `J'écoute… dis « ${stopHint()} »` : "Répondre"}
+          <Icon name="mic" />{recording ? "J'écoute… appuie ici quand tu as fini" : "Répondre"}
         </button>
       </div>
       {hint && <div className="qhint">{item.hint}</div>}
       {example && <div className="qexample"><b>{item.example}</b><br /><small>Inspire-toi de l&apos;idée, mais réponds avec tes propres mots.</small></div>}
       <div className="live">{s.live}</div>
+      <MicMeter />
       {s.error && <p className="warn">{s.error}</p>}
       {s.grading && <p className="muted"><Typing /> Correction en cours…</p>}
       {g && !s.grading && (

@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useListening } from "@/lib/speech/useListening";
 import { Icon } from "@/components/ui/Icon";
+import { MicMeter } from "@/components/ui/MicMeter";
 import { lang } from "@/lib/course/lang";
 
 interface Props {
@@ -43,6 +44,7 @@ export function Composer(p: Props) {
   return (
     <div className="composer">
       <div className="live">{p.live}</div>
+      <MicMeter />
       <div className="cbar">
         <button className="tool" onClick={p.onHelp} title="Idées de réponses">
           <Icon name="help" />

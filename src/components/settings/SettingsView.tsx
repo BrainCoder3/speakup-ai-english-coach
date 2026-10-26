@@ -5,6 +5,7 @@ import { store } from "@/lib/store/store";
 import type { Settings } from "@/lib/store/types";
 import { useStore } from "@/lib/store/useStore";
 import { BackupSettings } from "./BackupSettings";
+import { PhoneSettings } from "./PhoneSettings";
 import { VoiceSettings } from "./VoiceSettings";
 
 type Flag = "silent" | "handsfree" | "showText" | "allowTyping";
@@ -37,6 +38,7 @@ export function SettingsView() {
           </label>
         ))}
       </section>
+      <PhoneSettings />
       <BackupSettings />
       <section className="card">
         <h3>Système</h3>

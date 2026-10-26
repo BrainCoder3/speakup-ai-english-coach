@@ -5,6 +5,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from "react";
 import { countWords } from "@/lib/ai/tasks/speaking";
+import { micMessage } from "@/lib/speech/micErrors";
 import { listen, stop } from "@/lib/speech/stt";
 import { store } from "@/lib/store/store";
 import { today } from "@/lib/progress/stats";
@@ -42,8 +43,8 @@ export function useFluency(topic: string) {
       if (all.length === ROUNDS.length) {
         store.update((d) => void d.fluency.unshift({ date: today(), topic, wpm: all }));
       }
-    } catch {
-      setError("Micro indisponible : utilise Edge ou Chrome et autorise le micro.");
+    } catch (e) {
+      setError(micMessage(e));
     } finally {
       clearInterval(timer.current);
       setLeft(null);
