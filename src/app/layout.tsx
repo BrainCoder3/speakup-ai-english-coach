@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito, Young_Serif } from "next/font/google";
+import { BadgeToast } from "@/components/shell/BadgeToast";
 import { PwaRegister } from "@/components/shell/PwaRegister";
 import { Sidebar } from "@/components/shell/Sidebar";
 import "@/styles/base.css";
@@ -37,6 +38,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="fr" className={`${body.variable} ${display.variable}`}>
       <body>
         <PwaRegister />
+        <BadgeToast />
         <div className="app">
           <Sidebar />
           <main className="view">{children}</main>

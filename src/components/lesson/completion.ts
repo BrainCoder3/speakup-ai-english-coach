@@ -1,5 +1,6 @@
 /** What happens when a step is passed: stars, XP, next step or next level. */
 import { CONFIG } from "@/lib/config";
+import { addXp } from "@/lib/game/xp";
 import { passStep } from "@/lib/progress/rules";
 import { allStepsOf, courseOf, levelIndex, nextStepHref, stepsOf } from "@/data/courses";
 import type { Level, StepId } from "@/data/types";
@@ -14,6 +15,7 @@ export interface Celebration {
 
 export function completeStep(level: Level, step: StepId, avg: number): Celebration {
   const r = passStep(level.id, step, avg);
+  addXp(0); // streak day + badges
   const STEPS = stepsOf(level.id);
   const { levels, unit } = courseOf(level.id);
   const idx = STEPS.findIndex((s) => s.id === step);

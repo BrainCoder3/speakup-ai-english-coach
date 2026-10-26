@@ -32,6 +32,14 @@ Impossible de passer au niveau suivant tant que tu n'as pas le score requis.
 
 ---
 
+## 🎮 Pour rester motivé
+
+- **Rangs et XP** : 10 rangs (Curieux → Polyglotte). Tout rapporte des XP : réponses d'entraînement, expressions, textes, épreuves.
+- **Série 🔥** : toute pratique du jour compte, même sans micro.
+- **Objectif du jour** (page Parcours) : séance d'entraînement + thème d'expressions + Défi éclair = bonus de 30 XP.
+- **⚡ Défi éclair** (Entraînement ciblé) : 60 secondes, un maximum de réponses tapées, combo jusqu'à 40 points par réponse, record sauvegardé.
+- **🏆 Mes succès** : 16 succès à débloquer, annoncés par une notification ; confettis pour les records et les niveaux validés.
+
 ## 📚 Expressions utiles (écrit, sans micro)
 
 112 expressions d'anglais courant en 14 thèmes (conversation, avis, politesse, connecteurs, travail, émotions,

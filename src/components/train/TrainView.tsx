@@ -8,11 +8,12 @@ import { trainPool } from "@/lib/train/pool";
 import { dueCount, weakTopics } from "@/lib/train/schedule";
 import { CourseSwitch } from "@/components/shell/CourseSwitch";
 import { Icon } from "@/components/ui/Icon";
+import { Blitz } from "./Blitz";
 import { Fluency432 } from "./Fluency432";
 import { MethodCard } from "./MethodCard";
 import { Session } from "./Session";
 
-type Tab = "session" | "fluency";
+type Tab = "session" | "blitz" | "fluency";
 
 export function TrainView() {
   const ready = useStore();
@@ -33,6 +34,7 @@ export function TrainView() {
       <CourseSwitch />
       <div className="seg">
         <button className={tab === "session" ? "on" : ""} onClick={() => setTab("session")}>🎯 Séance du jour</button>
+        <button className={tab === "blitz" ? "on" : ""} onClick={() => setTab("blitz")}>⚡ Défi éclair</button>
         <button className={tab === "fluency" ? "on" : ""} onClick={() => setTab("fluency")}>⏱️ Fluidité 4/3/2</button>
       </div>
       {tab === "session" && (running ? (
@@ -44,6 +46,7 @@ export function TrainView() {
           <button className="btn primary" onClick={() => setRunning(Date.now())}><Icon name="arrow" />Commencer la séance</button>
         </section>
       ))}
+      {tab === "blitz" && <Blitz />}
       {tab === "fluency" && <Fluency432 />}
       {weak.length > 0 && (
         <section className="card">

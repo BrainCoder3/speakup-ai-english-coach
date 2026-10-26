@@ -14,6 +14,7 @@ const NAV = [
   { href: "/expressions", label: "📚 Expressions utiles", match: (p: string) => p.startsWith("/expressions") },
   { href: "/train", label: "🧠 Entraînement ciblé", match: (p: string) => p.startsWith("/train") },
   { href: "/free", label: "💬 Conversation libre", match: (p: string) => p.startsWith("/free") },
+  { href: "/achievements", label: "🏆 Mes succès", match: (p: string) => p.startsWith("/achievements") },
   { href: "/errors", label: "🔁 Mes erreurs", match: (p: string) => p.startsWith("/errors") },
   { href: "/notebook", label: "📒 Mon carnet", match: (p: string) => p.startsWith("/notebook") },
   { href: "/settings", label: "⚙️ Réglages", match: (p: string) => p.startsWith("/settings") },

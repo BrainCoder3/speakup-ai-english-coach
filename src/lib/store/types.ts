@@ -2,9 +2,9 @@
 import type { StepId } from "@/data/types";
 import type { FreeLevel } from "@/data/scenarios";
 import type { CourseId } from "@/lib/course/lang";
-import type { FluencyRun, PlanState, TrainCard } from "./extraTypes";
+import type { FluencyRun, GameState, PlanState, TrainCard } from "./extraTypes";
 
-export type { FluencyRun, PlanState, TrainCard };
+export type { FluencyRun, GameState, PlanState, TrainCard };
 
 export interface Settings {
   /** Language being learnt. */
@@ -75,6 +75,7 @@ export interface AppData {
   fluency: FluencyRun[];
   /** Ids of the expression themes the learner has studied (they join the spaced-repetition pool). */
   expr: string[];
+  game: GameState;
 }
 
 export const defaults = (): AppData => ({
@@ -87,5 +88,6 @@ export const defaults = (): AppData => ({
   train: {},
   fluency: [],
   expr: [],
+  game: { bestBlitz: 0, blitzRuns: 0, badges: [], daily: { date: "", tasks: [] }, goalDays: [] },
   errors: [],
 });

@@ -3,6 +3,7 @@
  * Due and often-missed items come first, a few new items are added, and topics are mixed.
  */
 import { store } from "@/lib/store/store";
+import { addXp } from "@/lib/game/xp";
 import { today } from "@/lib/progress/stats";
 import type { TrainCard } from "@/lib/store/types";
 import type { TrainItem } from "./pool";
@@ -42,6 +43,7 @@ export function buildSession(pool: TrainItem[], size = 20): TrainItem[] {
 
 /** Right on the first try → next box (longer wait); wrong → back to box 0, due today. */
 export function grade(key: string, right: boolean) {
+  addXp(right ? 2 : 1);
   store.update((d) => {
     const c = (d.train[key] ??= { box: 0, due: today(), seen: 0, miss: 0 });
     c.seen++;

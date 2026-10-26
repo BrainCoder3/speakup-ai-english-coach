@@ -15,6 +15,17 @@ export interface TrainCard {
   miss: number;
 }
 
+/** Game layer: Blitz record, today's goals, earned badges. */
+export interface GameState {
+  bestBlitz: number;
+  blitzRuns: number;
+  badges: string[];
+  /** Goals done on `date` (reset each day). */
+  daily: { date: string; tasks: string[] };
+  /** Days on which all the daily goals were done. */
+  goalDays: string[];
+}
+
 /** One 4/3/2 fluency session: words per minute of each round. */
 export interface FluencyRun {
   date: string;

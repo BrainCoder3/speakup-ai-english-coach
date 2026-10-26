@@ -1,13 +1,14 @@
 /** Which expression themes are studied, and how well they are known (spaced-repetition boxes). */
 import { store } from "@/lib/store/store";
+import { addXp } from "@/lib/game/xp";
 import { themeExprs, type ExprTheme } from "@/data/expressions";
 
 export const isStudied = (t: ExprTheme) => store.get().expr.includes(t.id);
 
 export function markStudied(t: ExprTheme) {
-  store.update((d) => {
-    if (!d.expr.includes(t.id)) d.expr.push(t.id);
-  });
+  if (isStudied(t)) return;
+  store.update((d) => void d.expr.push(t.id));
+  addXp(10);
 }
 
 /** An expression is "known" once it was recalled correctly twice in a row (box 2+). */

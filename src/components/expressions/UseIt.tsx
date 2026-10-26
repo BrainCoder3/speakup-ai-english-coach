@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { countWords, reviewSpeech, type SpeechReview } from "@/lib/ai/tasks/speaking";
 import { saveErrors } from "@/lib/errors/bank";
+import { addXp } from "@/lib/game/xp";
 import { trackScore } from "@/lib/progress/stats";
 import { usedExpressions } from "@/lib/scoring/expressions";
 import type { ExprTheme } from "@/data/expressions";
@@ -31,6 +32,7 @@ export function UseIt({ theme }: { theme: ExprTheme }) {
       trackScore("grammar", r.score);
       saveErrors(r.fixes);
       setReview(r);
+      addXp(15);
     } catch {
       setError("L'IA ne répond pas. Vérifie Ollama, puis réessaie.");
     }

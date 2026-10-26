@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { speak } from "@/lib/speech/tts";
+import { Confetti } from "@/components/ui/Confetti";
 import { Icon, Stars } from "@/components/ui/Icon";
 import type { Celebration } from "./completion";
 import { say } from "@/lib/course/phrases";
@@ -13,6 +14,7 @@ export function Celebrate({ c }: { c: Celebration }) {
   }, []);
   return (
     <div className="celebrate">
+      <Confetti />
       <div className="big">🏆</div>
       <h2>{c.title}</h2>
       <p>{c.text} <Stars n={c.stars} /></p>

@@ -61,3 +61,37 @@ dialog::backdrop { background: rgba(29, 42, 42, .35); }
 .steps-help { margin: 0 0 8px 20px; display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
 .field { display: flex; flex-direction: column; gap: 6px; font-weight: 800; }
 .field input { padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: var(--paper); font: inherit; font-weight: 600; }
+
+/* Game layer: rank, daily goal, badges, toast, confetti, blitz */
+.rank { display: flex; flex-direction: column; gap: 6px; font-weight: 800; font-size: 14px; }
+.rank .bar { position: relative; height: 8px; border-radius: 999px; background: var(--bg); overflow: hidden; }
+.rank .bar i { position: absolute; inset: 0; transform-origin: left; background: var(--amber); transition: transform .4s; }
+.daily-head { display: flex; justify-content: space-between; align-items: center; }
+.pill { background: var(--teal-soft); color: var(--teal); font-weight: 900; padding: 3px 12px; border-radius: 999px; }
+.daily ul { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.daily li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 700; }
+.daily li .link { margin-left: auto; }
+.daily li.ok { color: var(--muted); text-decoration: line-through; }
+.daily .tick { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--line); display: inline-grid; place-items: center; color: #fff; font-size: 13px; flex: none; }
+.daily li.ok .tick { background: var(--green); border-color: var(--green); }
+.daily.all { border-color: var(--green); background: var(--green-soft); }
+.rankcard { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
+.rank-big { font-size: 56px; }
+.rank-info { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 8px; }
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+.badge { border: 2px solid var(--line); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; gap: 4px; background: var(--paper); opacity: .6; }
+.badge.on { opacity: 1; border-color: var(--amber); background: var(--amber-soft); }
+.badge .bicon { font-size: 32px; }
+.badge small { color: var(--muted); font-weight: 700; }
+.toast { position: fixed; left: 50%; bottom: max(24px, env(safe-area-inset-bottom)); transform: translateX(-50%); z-index: 50; display: flex; gap: 12px; align-items: center; background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.3); animation: pop .35s ease-out; max-width: calc(100vw - 32px); }
+.toast .ticon { font-size: 34px; }
+.toast div { display: flex; flex-direction: column; line-height: 1.25; }
+.toast small { color: var(--amber); font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+.toast span:last-child { opacity: .8; font-size: 13px; }
+@keyframes pop { from { transform: translate(-50%, 30px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 40; }
+.confetti i { position: absolute; top: -12px; width: 9px; height: 14px; border-radius: 2px; animation: fall linear forwards; }
+@keyframes fall { to { top: 105%; transform: translateX(40px) rotate(720deg); opacity: .9; } }
+.blitz { display: flex; flex-direction: column; gap: 12px; }
+.bigscore { font-family: var(--display); font-size: 56px; line-height: 1; }
+.bigscore small { font-size: 18px; font-family: inherit; color: var(--muted); }

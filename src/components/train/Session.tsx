@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { trainPool, type TrainItem } from "@/lib/train/pool";
+import { markDaily } from "@/lib/game/daily";
 import { buildSession, grade } from "@/lib/train/schedule";
 import { AnswerCard, spellingCheck } from "@/components/write/AnswerCard";
 import { Icon } from "@/components/ui/Icon";
@@ -58,6 +59,7 @@ export function Session({ onExit, pool }: { onExit: () => void; pool?: TrainItem
         check={(t) => spellingCheck(blanks(t), it.answers.map(blanks), it.why)}
         onNext={(ok) => {
           grade(it.key, ok);
+          if (i + 1 >= items.length) markDaily(pool ? "expr" : "train");
           if (ok) setRight((r) => r + 1);
           else setMissed((m) => [...m, it]);
           setI((n) => n + 1);

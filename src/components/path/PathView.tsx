@@ -6,6 +6,7 @@ import { currentLevelIndex, nextStep } from "@/lib/progress/rules";
 import { summary } from "@/lib/progress/stats";
 import { COURSES } from "@/data/courses";
 import { activeCourse } from "@/lib/course/lang";
+import { DailyGoal } from "@/components/game/DailyGoal";
 import { CourseSwitch } from "@/components/shell/CourseSwitch";
 import { Icon } from "@/components/ui/Icon";
 import { LevelCard } from "./LevelCard";
@@ -38,6 +39,7 @@ export function PathView() {
         </Link>
       </header>
       <CourseSwitch />
+      <DailyGoal />
       <div className="kpis">
         {kpis.map(([v, l]) => (
           <div className="kpi" key={l}><b>{v}</b><small>{l}</small></div>
