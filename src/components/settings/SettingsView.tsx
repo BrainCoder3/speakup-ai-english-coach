@@ -6,6 +6,7 @@ import type { Settings } from "@/lib/store/types";
 import { useStore } from "@/lib/store/useStore";
 import { BackupSettings } from "./BackupSettings";
 import { PhoneSettings } from "./PhoneSettings";
+import { RecognitionSettings } from "./RecognitionSettings";
 import { VoiceSettings } from "./VoiceSettings";
 
 type Flag = "silent" | "handsfree" | "showText" | "allowTyping";
@@ -30,6 +31,7 @@ export function SettingsView() {
         </div>
       </header>
       <VoiceSettings />
+      <RecognitionSettings />
       <section className="card">
         <h3>Conversation</h3>
         {FLAGS.map(([k, label]) => (

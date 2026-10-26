@@ -4,6 +4,7 @@
  */
 import { CONFIG } from "@/lib/config";
 import { lang } from "@/lib/course/lang";
+import { store } from "@/lib/store/store";
 import { pickAlternative } from "./alternatives";
 import { endsWithStop, withoutStop } from "./stopPhrase";
 
@@ -45,7 +46,7 @@ export function record(SR: new () => SpeechRecognitionLike, onInterim: ((text: s
   function start() {
     rec = new SR();
     startedAt = Date.now();
-    rec.lang = lang().speech;
+    rec.lang = lang().id === "en" ? store.settings().recoLang || lang().speech : lang().speech;
     rec.interimResults = true;
     rec.continuous = true;
     rec.maxAlternatives = 5;

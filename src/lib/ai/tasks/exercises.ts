@@ -13,22 +13,24 @@ export interface Grade {
   changes: number;
 }
 
-/** Strict rule: if any word must be corrected, the answer cannot pass yet. */
+/** Kind rule: up to 2 changed words are corrected out loud but do not fail the answer. */
 export async function gradeAnswer(p: { question: string; said: string; cefr: string; target: string; example: string; passMark: number }): Promise<Grade> {
   const r = await chatJSON<Omit<Grade, "changes">>(answerPrompt(p), ANSWER_SCHEMA, { temperature: 0.1, maxTokens: 220 });
   let score = Math.max(0, Math.min(100, Math.round(r.score)));
   const n = p.said.trim().split(/\s+/).filter(Boolean).length;
-  if (n < 3) score = Math.min(score, 45); // full sentences only
+  if (n < 2) score = Math.min(score, 45); // not a single word
   if (!r.relevant) {
     score = Math.min(score, 50);
     r.corrected = p.example; // show a real model answer
   }
   const changes = r.relevant ? changedWords(p.said, r.corrected) : 0;
-  if (changes > 0) score = Math.min(score, p.passMark - 2);
-  else if (r.relevant && n >= 3) {
-    score = Math.max(score, p.passMark + 15);
-    r.feedback_fr = "Parfait : phrase correcte, complète et qui répond à la question !";
-    r.fix_en = say("greatAnswer");
+  if (changes > 2) score = Math.min(score, p.passMark - 2);
+  else if (r.relevant && n >= 2) {
+    score = Math.max(score, p.passMark + (changes === 0 ? 15 : 5));
+    if (changes === 0) {
+      r.feedback_fr = "Parfait : phrase correcte, complète et qui répond à la question !";
+      r.fix_en = say("greatAnswer");
+    }
   }
   return { ...r, score, changes };
 }

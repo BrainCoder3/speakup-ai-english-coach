@@ -14,6 +14,10 @@ export interface PronunciationResult {
   tokens: Token[];
 }
 
+/** Small words are often swallowed (or mis-heard) by the recogniser even when the speech is clear. */
+const SMALL = new Set(["a", "an", "the", "to", "of", "and", "uh", "um", "is", "are", "at", "in", "on", "it", "do", "does"]);
+const weight = (w: string) => (SMALL.has(w) ? 0.4 : 1);
+
 export function pronunciationScore(target: string, said: string, confidence = 0): PronunciationResult {
   const display = target.split(/\s+/).filter(Boolean);
   const owner: number[] = [];
@@ -29,13 +33,15 @@ export function pronunciationScore(target: string, said: string, confidence = 0)
     else if (dp[i + 1][j] >= dp[i][j + 1]) i++;
     else j++;
   }
-  const matched = ok.filter(Boolean).length;
-  const recall = matched / T.length;
-  const precision = S.length ? matched / S.length : 0;
-  let score = 100 * (0.85 * recall + 0.15 * precision);
-  if (confidence > 0) score *= 0.88 + 0.12 * confidence;
+  const total = T.reduce((n, w) => n + weight(w), 0);
+  const matched = T.reduce((n, w, k) => n + (ok[k] ? weight(w) : 0), 0);
+  const recall = matched / total;
+  const precision = S.length ? ok.filter(Boolean).length / S.length : 0;
+  let score = 100 * (0.9 * recall + 0.1 * precision) * 1.05;
+  if (confidence > 0) score *= 0.94 + 0.06 * confidence;
 
-  const tokens = display.map((text, k) => ({ text, ok: T.every((_, n) => owner[n] !== k || ok[n]) }));
+  // A missed small word is not shown as an error.
+  const tokens = display.map((text, k) => ({ text, ok: T.every((w, n) => owner[n] !== k || ok[n] || SMALL.has(w)) }));
   return { score: Math.round(Math.min(100, score)), tokens };
 }
 

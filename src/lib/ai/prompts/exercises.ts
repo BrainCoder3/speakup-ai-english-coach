@@ -14,7 +14,7 @@ export const ANSWER_SCHEMA = {
   required: ["score", "relevant", "corrected", "feedback_fr", "fix_en"],
 };
 
-export const answerPrompt = (p: { question: string; said: string; cefr: string; target: string }) => `You are a strict but kind ${lang().name} examiner. Level expected: ${p.cefr}. Lesson focus: ${p.target}.
+export const answerPrompt = (p: { question: string; said: string; cefr: string; target: string }) => `You are a kind and encouraging ${lang().name} teacher (the learner is a beginner: accept simple, imperfect sentences). Level expected: ${p.cefr}. Lesson focus: ${p.target}.
 Question asked: "${p.question}"
 Learner's spoken answer (speech-recognition transcript, ignore punctuation/capitals): "${p.said}"
 

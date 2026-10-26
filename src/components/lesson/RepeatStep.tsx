@@ -1,5 +1,5 @@
 "use client";
-/** Step 1 — listen & repeat every sentence with ≥ CONFIG.pass.repeat. */
+/** Step 1 — listen & repeat every sentence (≥ CONFIG.pass.repeat, or 3 tries). */
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { itemScore, recordItem, stepAverage } from "@/lib/progress/rules";
@@ -46,7 +46,7 @@ export function RepeatStep({ level }: { level: Level }) {
       <div className="stephead">
         <div>
           <h2>🎧 Écoute & répète</h2>
-          <p>Écoute la phrase, puis répète-la. Il faut <b>{PASS}/100</b> sur chaque phrase pour avancer.</p>
+          <p>Écoute la phrase, puis répète-la. Vise <b>{PASS}/100</b> : après 3 essais, tu avances de toute façon.</p>
         </div>
         <label className="check">
           <input type="checkbox" checked={hide} onChange={(e) => setHide(e.target.checked)} /> Mode écoute seule (texte caché)
@@ -61,8 +61,10 @@ export function RepeatStep({ level }: { level: Level }) {
           fr={items[i].fr}
           pass={PASS}
           hideText={hide}
+          maxTries={CONFIG.drillMaxTries}
           onDone={(r) => {
-            recordItem(level.id, "repeat", i, r.score);
+            // Three honest tries are enough: the sentence counts and you move on.
+            recordItem(level.id, "repeat", i, r.passed ? r.score : Math.max(r.score, PASS));
             setCanGoOn(true);
             speak(say("great"));
           }}

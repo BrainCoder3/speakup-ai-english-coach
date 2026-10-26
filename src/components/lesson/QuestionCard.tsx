@@ -60,7 +60,7 @@ export function QuestionCard({ level, index, item, onPassed }: Props) {
             <div className="label">Tu as dit → correction</div>
             <DiffText from={s.said} to={g.corrected} />
             <p className="fbfr">{g.feedback_fr}</p>
-            {!ok && <p className="warn">Objectif {pass}/100 : corrige-toi et réessaie !{s.fails >= CONFIG.answerFallbackAfter ? " Ou répète la bonne réponse ci-dessous pour valider." : ""}</p>}
+            {!ok && <p className="warn">Objectif {pass}/100 : redis ta phrase avec la correction et réessaie !{s.fails >= CONFIG.answerFallbackAfter ? " Ou répète la bonne réponse ci-dessous pour valider." : ""}</p>}
           </div>
         </div>
       )}

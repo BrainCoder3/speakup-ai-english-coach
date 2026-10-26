@@ -20,6 +20,8 @@ export interface Settings {
   freeScenario: string;
   /** Optional address of a SpeakUp server running the AI (phone / static site). Empty = same site. */
   aiUrl: string;
+  /** Accent the speech recogniser expects for English (en-US, en-NG, en-GH…). */
+  recoLang: string;
 }
 
 export interface StepProgress {
@@ -77,7 +79,7 @@ export interface AppData {
 
 export const defaults = (): AppData => ({
   version: 2,
-  settings: { course: "en", voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, silent: false, freeLevel: "intermediate", freeScenario: "free", aiUrl: "" },
+  settings: { course: "en", voice: null, rate: 0.95, handsfree: true, showText: true, allowTyping: false, silent: false, freeLevel: "intermediate", freeScenario: "free", aiUrl: "", recoLang: "en-US" },
   levels: {},
   stats: { turns: 0, words: 0, scores: [], pron: [], mistakes: {}, days: [], xp: 0 },
   vocab: [],

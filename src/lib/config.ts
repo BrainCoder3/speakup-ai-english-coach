@@ -14,15 +14,15 @@ export const CONFIG = {
     exercises: 80, // fill-in-the-blank exercises, first try (Spanish)
     translation: 75, // French → Spanish sentences, first try
     writing: 75, // written text, after correcting every mistake
-    repeat: 85, // each "listen & repeat" sentence
-    listen: 70, // each listening-comprehension question
-    answer: 70, // each spoken answer (any grammar fix = fail)
-    speak: 65, // long speaking task, after correcting your mistakes
-    mission: 75, // average over the role-play mission
-    drill: 80, // repeating a corrected sentence in a conversation
+    repeat: 60, // each "listen & repeat" sentence (3 tries, then you move on)
+    listen: 55, // each listening-comprehension question
+    answer: 55, // each spoken answer (up to 2 small slips are corrected, not failed)
+    speak: 55, // long speaking task, after correcting your mistakes
+    mission: 55, // average over the role-play mission
+    drill: 55, // repeating a corrected sentence in a conversation
   },
   drillMaxTries: 3,
-  answerFallbackAfter: 2,
+  answerFallbackAfter: 1,
 
   /**
    * Short answers end on a pause (800 ms after a finished sentence); long ones end when you press the
